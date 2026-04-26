@@ -1,0 +1,492 @@
+{% load static %}
+<!doctype html>
+
+<html class="light" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>VizQuote Client Portal | Sarah Johnson</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <!-- Google Fonts: Manrope & Inter -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap"
+      rel="stylesheet"
+    />
+    <!-- Material Symbols -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-primary-container": "#ffffff",
+              "secondary-container": "#b2c9fe",
+              "on-primary-fixed": "#001a41",
+              "inverse-surface": "#2d3038",
+              "surface-container-low": "#f2f3fd",
+              "surface-variant": "#e0e2ec",
+              "surface-tint": "#005bc0",
+              "on-tertiary-container": "#0e0200",
+              "primary-fixed-dim": "#adc7ff",
+              "on-tertiary-fixed": "#341100",
+              "surface-container-lowest": "#ffffff",
+              background: "#f9f9ff",
+              "on-primary": "#ffffff",
+              "on-secondary-container": "#3d5481",
+              "tertiary-fixed": "#ffdbcb",
+              "inverse-primary": "#adc7ff",
+              "error-container": "#ffdad6",
+              "inverse-on-surface": "#eff0fa",
+              "surface-dim": "#d8d9e3",
+              "on-secondary": "#ffffff",
+              "surface-bright": "#f9f9ff",
+              "surface-container-high": "#e6e8f2",
+              "on-background": "#191c23",
+              outline: "#727785",
+              "surface-container": "#ecedf7",
+              tertiary: "#9e4300",
+              "on-tertiary": "#ffffff",
+              "on-surface": "#191c23",
+              "tertiary-container": "#c55500",
+              "tertiary-fixed-dim": "#ffb691",
+              "on-primary-fixed-variant": "#004493",
+              primary: "#005bbf",
+              "on-tertiary-fixed-variant": "#783100",
+              "outline-variant": "#c1c6d6",
+              secondary: "#475e8c",
+              "primary-container": "#1a73e8",
+              "surface-container-highest": "#e0e2ec",
+              "on-error-container": "#93000a",
+              "on-secondary-fixed-variant": "#2e4673",
+              "primary-fixed": "#d8e2ff",
+              "on-secondary-fixed": "#001a41",
+              surface: "#f9f9ff",
+              "on-surface-variant": "#414754",
+              error: "#ba1a1a",
+              "on-error": "#ffffff",
+              "secondary-fixed": "#d8e2ff",
+              "secondary-fixed-dim": "#afc7fb",
+            },
+            fontFamily: {
+              headline: ["Manrope"],
+              body: ["Inter"],
+              label: ["Inter"],
+            },
+            borderRadius: {
+              DEFAULT: "0.25rem",
+              lg: "0.5rem",
+              xl: "0.75rem",
+              full: "9999px",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings:
+          "FILL" 0,
+          "wght" 400,
+          "GRAD" 0,
+          "opsz" 24;
+      }
+      body {
+        font-family: "Inter", sans-serif;
+      }
+      h1,
+      h2,
+      h3,
+      .brand-logo {
+        font-family: "Manrope", sans-serif;
+      }
+      .glass-nav {
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+      }
+    </style>
+  </head>
+  <body class="bg-background text-on-background min-h-screen">
+    <!-- TopNavBar -->
+    <nav
+      class="fixed top-0 w-full z-40 bg-white/70 backdrop-blur-md shadow-[0_16px_48px_-12px_rgba(0,0,0,0.06)] h-16"
+    >
+      <div
+        class="flex justify-between items-center px-8 h-16 w-full max-w-[1920px] mx-auto"
+      >
+        <div class="flex items-center gap-8">
+          <a
+            class="text-2xl font-extrabold tracking-tighter text-blue-900 brand-logo"
+            href="#"
+            >VizQuote</a
+          >
+          <!-- Desktop Navigation Links -->
+          <div class="hidden md:flex items-center gap-6">
+            <a
+              class="text-blue-700 font-bold border-b-2 border-blue-600 px-1 py-4"
+              href="#"
+              >Quotes</a
+            >
+            <a
+              class="text-slate-500 font-medium hover:bg-slate-100 transition-colors duration-300 px-3 py-2 rounded-lg"
+              href="#"
+              >Dashboard</a
+            >
+            <a
+              class="text-slate-500 font-medium hover:bg-slate-100 transition-colors duration-300 px-3 py-2 rounded-lg"
+              href="#"
+              >Support</a
+            >
+          </div>
+        </div>
+        <div class="flex items-center gap-4">
+          <!-- Trailing Icons -->
+          <button
+            class="p-2 text-slate-500 hover:bg-slate-100 rounded-full transition-transform active:scale-90"
+          >
+            <span class="material-symbols-outlined" data-icon="notifications"
+              >notifications</span
+            >
+          </button>
+          <button
+            class="p-2 text-slate-500 hover:bg-slate-100 rounded-full transition-transform active:scale-90"
+          >
+            <span class="material-symbols-outlined" data-icon="help_outline"
+              >help_outline</span
+            >
+          </button>
+          <!-- User Profile Section -->
+          <a
+            class="flex items-center gap-3 pl-4 ml-4 border-l border-surface-variant hover:opacity-80 transition-opacity cursor-pointer"
+            href="#"
+          >
+            <div class="text-right hidden sm:block">
+              <p class="text-sm font-bold text-on-surface leading-tight">
+                Sarah Johnson
+              </p>
+              <p class="text-xs font-medium text-slate-500">Homeowner</p>
+            </div>
+            <img
+              alt="User Profile Avatar"
+              class="w-10 h-10 rounded-full object-cover ring-2 ring-primary/10"
+              data-alt="Close up portrait of Sarah Johnson smiling"
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuDrEGk0qJSmOvNmz3PAox16mtrErKH9N-hTjEkujF3hMpc7FCvoRGCpYhsg3tF_2f8ZYQX4iDwEHYuNM-4v2-7hF7bWlOPqPFTmMl_7yP83HkyxLhXitIYuhcX70-xgpf4Ns3NjM4d3oqrj2xeoJ3Tjfc095Muw-xMU8XCtNyfWc8jpX9IFkH7ztt1veEQyn-l-xIQ-KicFcUFvDZziWixDMTFygwbRzPBpuTHja8jHUMddtnfhjLm7h7Cnz3Oj0sWhAS2_xoQZnhEI"
+            />
+          </a>
+        </div>
+      </div>
+    </nav>
+    <!-- Main Content Area -->
+    <main class="pt-24 pb-12 px-8 max-w-[1920px] mx-auto">
+      {% for quote in client_quotes %}
+      <!-- Page Header -->
+      <header class="mb-10">
+        <h1 class="text-4xl font-extrabold tracking-tight text-on-surface mb-2">
+          My Roofing Quotes
+        </h1>
+        <p class="text-lg text-on-surface-variant font-medium opacity-80">
+          View and manage your roofing project quotes
+        </p>
+      </header>
+      <!-- Stats Overview (Editorial Focus) -->
+      <!-- REPLACE entire stats section -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+        <div
+          class="bg-surface-container-lowest p-8 rounded-xl relative overflow-hidden group"
+        >
+          <div class="absolute left-0 top-0 bottom-0 w-1 bg-primary"></div>
+          <p
+            class="text-label-md uppercase tracking-widest text-slate-500 font-semibold mb-4"
+          >
+            Pending Quotes
+          </p>
+          <div class="flex items-baseline gap-2">
+            <span class="text-5xl font-extrabold text-on-surface font-headline"
+              >{{ stats.pending_count }}</span
+            >
+            <span class="text-primary font-bold">Active</span>
+          </div>
+        </div>
+        <div class="bg-surface-container-lowest p-8 rounded-xl group">
+          <p
+            class="text-label-md uppercase tracking-widest text-slate-500 font-semibold mb-4"
+          >
+            Total Value
+          </p>
+          <div class="flex items-baseline gap-2">
+            <span class="text-5xl font-extrabold text-on-surface font-headline"
+              >${{ stats.total_value }}</span
+            >
+          </div>
+        </div>
+        <div class="bg-surface-container-lowest p-8 rounded-xl group relative">
+          <p
+            class="text-label-md uppercase tracking-widest text-slate-500 font-semibold mb-4"
+          >
+            Project Status
+          </p>
+          <div class="flex items-center gap-3">
+            <span
+              class="material-symbols-outlined text-tertiary text-3xl"
+              data-icon="architecture"
+              >architecture</span
+            >
+            <span class="text-2xl font-bold text-on-surface"
+              >{{ stats.status }}</span
+            >
+          </div>
+        </div>
+      </div>
+      {% empty %}
+      <p class="text-center py-20 text-on-surface-variant">
+        No quotes yet.
+        <a href="/quotes/new/" class="text-primary font-bold">Create one now</a>
+      </p>
+      {% endfor %}
+      <!-- Table Section: Recent Quotes -->
+      <section
+        class="bg-surface-container-lowest rounded-xl shadow-[0_32px_48px_-12px_rgba(0,0,0,0.06)] overflow-hidden"
+      >
+        <div
+          class="px-8 py-6 flex items-center justify-between border-b border-outline-variant/15"
+        >
+          <h2 class="text-xl font-bold text-on-surface">Recent Quotes</h2>
+          <div class="flex gap-2">
+            <button
+              class="bg-primary-container text-on-primary px-4 py-2 rounded-lg font-bold text-sm transition-transform active:scale-95"
+            >
+              Download All
+            </button>
+          </div>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="bg-surface-container-low">
+                <th
+                  class="px-8 py-4 text-xs font-semibold uppercase tracking-widest text-on-surface-variant"
+                >
+                  Quote ID
+                </th>
+                <th
+                  class="px-8 py-4 text-xs font-semibold uppercase tracking-widest text-on-surface-variant"
+                >
+                  Status
+                </th>
+                <th
+                  class="px-8 py-4 text-xs font-semibold uppercase tracking-widest text-on-surface-variant"
+                >
+                  Created Date
+                </th>
+                <th
+                  class="px-8 py-4 text-xs font-semibold uppercase tracking-widest text-on-surface-variant"
+                >
+                  Total
+                </th>
+                <th
+                  class="px-8 py-4 text-xs font-semibold uppercase tracking-widest text-on-surface-variant text-right"
+                >
+                  Actions
+                </th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-outline-variant/10">
+              {% for quote in client_quotes %}
+              <tr
+                class="hover:bg-slate-50/80 transition-colors duration-200 group"
+              >
+                <td class="px-8 py-5">
+                  <div class="flex items-center gap-3">
+                    <span
+                      class="material-symbols-outlined text-slate-400 group-hover:text-blue-600 transition-colors"
+                      data-icon="description"
+                      >description</span
+                    >
+                    <span class="font-semibold text-on-surface"
+                      >#{{ quote.id }}</span
+                    >
+                  </div>
+                </td>
+                <td class="px-8 py-5">
+                  <span
+                    class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold {% if quote.status == 'sent' %}bg-blue-100 text-blue-700 {% elif quote.status == 'approved' %}bg-emerald-100 text-emerald-700 {% elif quote.status == 'draft' %}bg-slate-100 text-slate-600 {% else %}bg-rose-100 text-rose-700{% endif %}"
+                  >
+                    {{ quote.status|title }}
+                  </span>
+                </td>
+                <td class="px-8 py-5 text-on-surface-variant">
+                  {{ quote.created_date|date:"M d, Y" }}
+                </td>
+                <td class="px-8 py-5 font-bold text-on-surface">
+                  ${{ quote.total|floatformat:2 }}
+                </td>
+                <td class="px-8 py-5 text-right">
+                  <a
+                    href="{% url 'quote_detail' quote.id %}"
+                    class="text-primary font-bold text-sm hover:underline"
+                    >View Details</a
+                  >
+                </td>
+              </tr>
+              {% empty %}
+              <tr>
+                <td
+                  colspan="5"
+                  class="px-8 py-12 text-center text-on-surface-variant"
+                >
+                  No quotes found.
+                  <a href="/quotes/new/" class="text-primary font-bold"
+                    >Request a new quote</a
+                  >
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <div
+          class="px-8 py-6 bg-surface-container-low flex items-center justify-between"
+        >
+          <p class="text-sm text-on-surface-variant font-medium">
+            Showing {{ client_quotes.start_index }} to {{
+            client_quotes.end_index }} of {{ client_quotes.paginator.count }}
+            quotes
+          </p>
+          <div class="flex gap-2">
+            {% if client_quotes.has_previous %}
+            <a
+              href="?page={{ client_quotes.previous_page_number }}"
+              class="p-2 border border-outline-variant rounded-lg hover:bg-white transition-colors"
+            >
+              <span
+                class="material-symbols-outlined text-sm"
+                data-icon="chevron_left"
+                >chevron_left</span
+              >
+            </a>
+            {% endif %} {% if client_quotes.has_next %}
+            <a
+              href="?page={{ client_quotes.next_page_number }}"
+              class="p-2 border border-outline-variant rounded-lg hover:bg-white transition-colors"
+            >
+              <span
+                class="material-symbols-outlined text-sm"
+                data-icon="chevron_right"
+                >chevron_right</span
+              >
+            </a>
+            {% endif %}
+          </div>
+        </div>
+      </section>
+      <!-- Asymmetric Detail Section -->
+      <div class="mt-12 grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <div
+          class="lg:col-span-8 bg-surface-container-low rounded-xl p-8 flex flex-col justify-center"
+        >
+          <div class="flex items-start gap-6">
+            <div class="bg-white p-4 rounded-xl shadow-sm">
+              <span
+                class="material-symbols-outlined text-4xl text-primary"
+                data-icon="engineering"
+                data-weight="fill"
+                >engineering</span
+              >
+            </div>
+            <div>
+              <h3 class="text-2xl font-bold mb-2">
+                Need a Technical Consultation?
+              </h3>
+              <p class="text-on-surface-variant max-w-xl mb-6">
+                Our roofing experts are available to walk through your 3D models
+                and quote breakdowns. Schedule a 15-minute technical review
+                today.
+              </p>
+              <button
+                class="bg-primary text-on-primary px-6 py-3 rounded-lg font-bold transition-all hover:shadow-lg active:scale-95"
+              >
+                Book Technical Review
+              </button>
+            </div>
+          </div>
+        </div>
+        <div
+          class="lg:col-span-4 bg-primary text-on-primary rounded-xl p-8 relative overflow-hidden flex flex-col justify-between"
+        >
+          <!-- Abstract Pattern Background -->
+          <div
+            class="absolute inset-0 opacity-10 pointer-events-none"
+            style="
+              background-image: radial-gradient(
+                circle at 2px 2px,
+                white 1px,
+                transparent 0
+              );
+              background-size: 24px 24px;
+            "
+          ></div>
+          <h3 class="text-xl font-bold mb-4 z-10">
+            Premium Warranty Activated
+          </h3>
+          <p class="text-sm text-primary-fixed mb-8 z-10 leading-relaxed">
+            Your project is eligible for our 25-year structural integrity
+            guarantee. View the details in your client portal documentation.
+          </p>
+          <button
+            class="mt-auto bg-white/10 backdrop-blur-md border border-white/20 text-white font-bold py-3 rounded-lg z-10 hover:bg-white/20 transition-all"
+          >
+            View Warranty Terms
+          </button>
+        </div>
+      </div>
+    </main>
+    <!-- BottomNavBar (Mobile Only) -->
+    <nav
+      class="md:hidden fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-lg px-6 py-3 flex justify-around items-center z-50 shadow-[0_-8px_24px_rgba(0,0,0,0.05)]"
+    >
+      <button class="flex flex-col items-center gap-1 text-primary">
+        <span
+          class="material-symbols-outlined"
+          data-icon="description"
+          style="font-variation-settings: &quot;FILL&quot; 1"
+          >description</span
+        >
+        <span class="text-[10px] font-bold uppercase tracking-tighter"
+          >Quotes</span
+        >
+      </button>
+      <button class="flex flex-col items-center gap-1 text-slate-400">
+        <span class="material-symbols-outlined" data-icon="grid_view"
+          >grid_view</span
+        >
+        <span class="text-[10px] font-bold uppercase tracking-tighter"
+          >Projects</span
+        >
+      </button>
+      <button class="flex flex-col items-center gap-1 text-slate-400">
+        <span class="material-symbols-outlined" data-icon="notifications"
+          >notifications</span
+        >
+        <span class="text-[10px] font-bold uppercase tracking-tighter"
+          >Alerts</span
+        >
+      </button>
+      <button class="flex flex-col items-center gap-1 text-slate-400">
+        <span class="material-symbols-outlined" data-icon="settings"
+          >settings</span
+        >
+        <span class="text-[10px] font-bold uppercase tracking-tighter"
+          >Account</span
+        >
+      </button>
+    </nav>
+  </body>
+</html>

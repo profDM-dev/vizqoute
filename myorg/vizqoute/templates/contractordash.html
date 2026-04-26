@@ -1,0 +1,790 @@
+{% load static %}
+<!doctype html>
+
+<html class="light" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>VizQuote Contractor Dashboard</title>
+    <!-- Tailwind CSS with Plugins -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <!-- Material Symbols Outlined -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <!-- Google Fonts: Manrope & Inter -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@700;800&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-primary-container": "#ffffff",
+              "secondary-container": "#b2c9fe",
+              "on-primary-fixed": "#001a41",
+              "inverse-surface": "#2d3038",
+              "surface-container-low": "#f2f3fd",
+              "surface-variant": "#e0e2ec",
+              "surface-tint": "#005bc0",
+              "on-tertiary-container": "#0e0200",
+              "primary-fixed-dim": "#adc7ff",
+              "on-tertiary-fixed": "#341100",
+              "surface-container-lowest": "#ffffff",
+              background: "#f9f9ff",
+              "on-primary": "#ffffff",
+              "on-secondary-container": "#3d5481",
+              "tertiary-fixed": "#ffdbcb",
+              "inverse-primary": "#adc7ff",
+              "error-container": "#ffdad6",
+              "inverse-on-surface": "#eff0fa",
+              "surface-dim": "#d8d9e3",
+              "on-secondary": "#ffffff",
+              "surface-bright": "#f9f9ff",
+              "surface-container-high": "#e6e8f2",
+              "on-background": "#191c23",
+              outline: "#727785",
+              "surface-container": "#ecedf7",
+              tertiary: "#9e4300",
+              "on-tertiary": "#ffffff",
+              "on-surface": "#191c23",
+              "tertiary-container": "#c55500",
+              "tertiary-fixed-dim": "#ffb691",
+              "on-primary-fixed-variant": "#004493",
+              primary: "#005bbf",
+              "on-tertiary-fixed-variant": "#783100",
+              "outline-variant": "#c1c6d6",
+              secondary: "#475e8c",
+              "primary-container": "#1a73e8",
+              "surface-container-highest": "#e0e2ec",
+              "on-error-container": "#93000a",
+              "on-secondary-fixed-variant": "#2e4673",
+              "primary-fixed": "#d8e2ff",
+              "on-secondary-fixed": "#001a41",
+              surface: "#f9f9ff",
+              "on-surface-variant": "#414754",
+              error: "#ba1a1a",
+              "on-error": "#ffffff",
+              "secondary-fixed": "#d8e2ff",
+              "secondary-fixed-dim": "#afc7fb",
+            },
+            fontFamily: {
+              headline: ["Manrope"],
+              body: ["Inter"],
+              label: ["Inter"],
+            },
+            borderRadius: {
+              DEFAULT: "0.25rem",
+              lg: "0.5rem",
+              xl: "0.75rem",
+              full: "9999px",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings:
+          "FILL" 0,
+          "wght" 400,
+          "GRAD" 0,
+          "opsz" 24;
+      }
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: #f9f9ff;
+      }
+      h1,
+      h2,
+      h3,
+      .headline {
+        font-family: "Manrope", sans-serif;
+      }
+      .tonal-layering {
+        background: linear-gradient(180deg, #f9f9ff 0%, #ecedf7 100%);
+      }
+      .glass-card {
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(24px);
+      }
+      .true-shadow {
+        box-shadow: 0 16px 48px rgba(25, 28, 35, 0.06);
+      }
+    </style>
+    <!-- Leaflet CSS -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+      #quote-map {
+        height: 300px;
+        border-radius: 12px;
+      }
+    </style>
+  </head>
+  <body class="text-on-surface">
+    <!-- Sidebar Navigation -->
+    <aside
+      class="fixed left-0 top-0 h-full w-64 z-50 bg-gradient-to-b from-[#0f172a] via-[#1e3a8a] to-[#059669] shadow-xl flex flex-col py-6 px-4 gap-2 transition-all duration-200 ease-in-out"
+    >
+      <div class="px-4 mb-8">
+        <div class="flex items-center gap-3" href="#">
+          <div
+            class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center text-on-primary"
+            href="#"
+          >
+            <span
+              class="material-symbols-outlined"
+              style="font-variation-settings: &quot;FILL&quot; 1"
+              >architecture</span
+            >
+          </div>
+          <div>
+            <h1
+              class="font-bold text-blue-900 dark:text-blue-100 text-lg leading-tight"
+            >
+              VizQuote
+            </h1>
+            <p
+              class="text-[10px] font-semibold uppercase tracking-widest text-slate-500"
+            >
+              Technical Elegance
+            </p>
+          </div>
+        </div>
+      </div>
+      <nav class="flex-1 flex flex-col gap-1">
+        <a
+          class="flex items-center gap-3 px-4 py-3 bg-white dark:bg-slate-800 text-blue-700 dark:text-blue-400 border-l-4 border-blue-600 rounded-r-lg shadow-sm transition-all duration-200"
+          href="{% url 'dashboard' %}"
+        >
+          <span
+            class="material-symbols-outlined"
+            style="font-variation-settings: &quot;FILL&quot; 1"
+            >grid_view</span
+          >
+          <span class="text-xs font-semibold uppercase tracking-widest"
+            >Dashboard</span
+          >
+        </a>
+        <a
+          class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-blue-600 hover:bg-slate-200/50 transition-all duration-200"
+          href="{% url 'admin' %}"
+        >
+          <span class="material-symbols-outlined">insert_chart</span>
+          <span class="text-xs font-semibold uppercase tracking-widest"
+            >Analytics</span
+          >
+        </a>
+        <!-- Dynamic Client Selector -->
+        <div class="flex items-center gap-3 px-4 py-3">
+          <span class="material-symbols-outlined text-slate-400">group</span>
+          <select
+            onchange="window.location = '/client/' + this.value"
+            class="bg-transparent border-none text-sm font-medium text-slate-400 hover:text-white focus:outline-none"
+          >
+            <option value="">Client Portal</option>
+            {% for client in clients %}
+            <option value="{{ client.name|slugify }}">{{ client.name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <a
+          class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-blue-600 hover:bg-slate-200/50 transition-all duration-200"
+          href="{% url '3dview' %}"
+        >
+          <span class="material-symbols-outlined">architecture</span>
+          <span class="text-xs font-semibold uppercase tracking-widest"
+            >3D Models</span
+          >
+        </a>
+        <a
+          class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-blue-600 hover:bg-slate-200/50 transition-all duration-200"
+          href="#"
+        >
+          <span class="material-symbols-outlined">settings</span>
+          <span class="text-xs font-semibold uppercase tracking-widest"
+            >Settings</span
+          >
+        </a>
+      </nav>
+      <div
+        class="mt-auto flex flex-col gap-1 pt-6 border-t border-surface-variant/30"
+      >
+        <a
+          class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-blue-600 transition-all duration-200"
+          href="#"
+        >
+          <span class="material-symbols-outlined">help</span>
+          <span class="text-xs font-semibold uppercase tracking-widest"
+            >Help Center</span
+          >
+        </a>
+        <a
+          class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-error transition-all duration-200"
+          href="{% url 'landing' %}"
+        >
+          <span class="material-symbols-outlined">logout</span>
+          <span class="text-xs font-semibold uppercase tracking-widest"
+            >Sign Out</span
+          >
+        </a>
+        <div
+          class="mt-4 flex items-center gap-3 px-2 py-3 bg-surface-container-low rounded-xl"
+        >
+          <img
+            class="w-10 h-10 rounded-lg object-cover"
+            data-alt="John Contractor profile portrait"
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuC9qZn8q6GIwLcFcVMHh7yd9A9OifIRZRk2TAsyG7sDzVDJOzK2DKCxGqsrLo4mmCsCUaRgkokylhFIoYIyUkFm3JwFFB2e-U6w4J_7ZmxHAev34seUw1OOz_Acn9hqoNbd4roAs8ou1B1Azt6aQsbZyzLDA00XvJF2yb06ctr9UGyx0Q9MlB2GxcpppDRMm9N5_Y5VljKo8aAuEIpU3Yxu8iE7sm9TyFkcd74Ay9WeFQwsmlwiuhJYrsBB5aAkaextIy3b8hLMQoI-"
+          />
+          <div class="overflow-hidden">
+            <p class="text-sm font-bold truncate">John Contractor</p>
+            <p class="text-[10px] text-slate-500 truncate">
+              Premium Tier Vendor
+            </p>
+          </div>
+        </div>
+      </div>
+    </aside>
+    <!-- Main Content Canvas -->
+    <main class="ml-64 min-h-screen p-10 max-w-[1600px] mx-auto">
+      <!-- TopAppBar-style Header -->
+      <header class="flex justify-between items-end mb-12">
+        <div>
+          <h1 class="text-4xl font-extrabold tracking-tight text-blue-900 mb-1">
+            Contractor
+          </h1>
+          <p class="text-slate-500 font-medium">
+            Welcome back, John. Here is your roofing enterprise overview.
+          </p>
+        </div>
+        <div class="flex items-center gap-4">
+          <button
+            class="w-12 h-12 rounded-full flex items-center justify-center bg-surface-container-low hover:bg-surface-container-high transition-colors text-on-surface"
+          >
+            <span class="material-symbols-outlined">notifications</span>
+          </button>
+          <div
+            class="w-12 h-12 rounded-full overflow-hidden border-2 border-primary/20"
+          >
+            <img
+              class="w-full h-full object-cover"
+              data-alt="User circular avatar"
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZbmJ7nNVEsmqYiEJJmRDjERuSkbc4spS2PE6w7nylC6O4QBpifuyfVqrwFmG6aFGYX0jnMhdAoemBcpKvN_KgaQEoiuK0YmKoY8ROqCg_6cjoXuzFCMHY995bbtulDXi7B_go_bbGMQ9GR_KrglOQHcYGB6WX_i9NMWL6S0XcoUORhTlDgkkRl2953ksUh67P8T2y08148u6zOEOG_pIsj31h48YYxTQbFZyK11zXtJlu_bSTvjWm6ZH9iaCGJk_fmoZyR9hWGX5E"
+            />
+          </div>
+        </div>
+      </header>
+      <!-- Summary Metrics Grid (Asymmetric Editorial Feel) -->
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
+        <div
+          class="bg-surface-container-lowest p-6 rounded-xl true-shadow relative overflow-hidden group"
+        >
+          <div
+            class="absolute left-0 top-0 bottom-0 w-1 bg-primary transform -translate-x-full group-hover:translate-x-0 transition-transform duration-300"
+          ></div>
+          <p
+            class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-4"
+          >
+            Draft Quotes
+          </p>
+          <div class="flex items-baseline gap-2">
+            <span
+              id="count-draft"
+              class="text-5xl font-extrabold text-on-surface headline"
+              >0</span
+            >
+            <span class="text-sm font-medium text-slate-400">items</span>
+          </div>
+        </div>
+        <div
+          class="bg-surface-container-lowest p-6 rounded-xl true-shadow relative overflow-hidden group border-l-4 border-primary"
+        >
+          <p
+            class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-4"
+          >
+            Sent Quotes
+          </p>
+          <div class="flex items-baseline gap-2">
+            <span
+              id="count-sent"
+              class="text-5xl font-extrabold text-on-surface headline"
+              >0</span
+            >
+            <span class="text-sm font-medium text-slate-400">pending</span>
+          </div>
+        </div>
+        <div
+          class="bg-surface-container-lowest p-6 rounded-xl true-shadow relative overflow-hidden group"
+        >
+          <div
+            class="absolute left-0 top-0 bottom-0 w-1 bg-primary transform -translate-x-full group-hover:translate-x-0 transition-transform duration-300"
+          ></div>
+          <p
+            class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-4"
+          >
+            Approved
+          </p>
+          <div class="flex items-baseline gap-2 relative">
+            <span
+              id="count-approved"
+              class="text-5xl font-extrabold text-on-surface headline"
+              >0</span
+            >
+            <span
+              id="approved-growth"
+              class="text-sm font-medium text-green-600 text-xs absolute -top-2 -right-2 bg-green-100 px-2 py-1 rounded-full shadow-sm"
+            >
+              +12%
+            </span>
+          </div>
+        </div>
+        <div
+          class="bg-surface-container-lowest p-6 rounded-xl true-shadow relative overflow-hidden group"
+        >
+          <div
+            class="absolute left-0 top-0 bottom-0 w-1 bg-tertiary transform -translate-x-full group-hover:translate-x-0 transition-transform duration-300"
+          ></div>
+          <p
+            class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-4"
+          >
+            Rejected
+          </p>
+          <div class="flex items-baseline gap-2">
+            <span
+              id="count-rejected"
+              class="text-5xl font-extrabold text-on-surface headline"
+              >0</span
+            >
+            <span class="text-sm font-medium text-tertiary">Review needed</span>
+          </div>
+        </div>
+      </div>
+      <!-- Main Bento Grid Section -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-10">
+        <!-- Revenue & Major Metrics (Large) -->
+        <div
+          class="lg:col-span-2 bg-gradient-to-b from-[#0f172a] via-[#1e3a8a] to-[#059669] rounded-2xl p-10 text-white relative overflow-hidden flex flex-col justify-between min-h-[400px] shadow-xl"
+        >
+          <div
+            class="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -mr-20 -mt-20 blur-3xl"
+          ></div>
+          <div
+            class="bg-gradient-to-b from-[#0f172a] via-[#1e3a8a] to-[#059669] p-8 rounded-xl relative z-10"
+          >
+            <p
+              class="text-sm font-bold uppercase tracking-[0.2em] opacity-80 mb-6"
+            >
+              Total Enterprise Revenue
+            </p>
+            <h2
+              id="total-revenue"
+              class="text-7xl font-extrabold tracking-tighter headline"
+            >
+              $0
+            </h2>
+            <div class="mt-8 flex gap-8">
+              <div class="bg-white/10 backdrop-blur-md px-6 py-4 rounded-xl">
+                <p class="text-[10px] font-bold uppercase opacity-70 mb-1">
+                  Avg. Quote Value
+                </p>
+                <p id="avg-quote-value" class="text-2xl font-bold">$0</p>
+              </div>
+              <div class="bg-white/10 backdrop-blur-md px-6 py-4 rounded-xl">
+                <p class="text-[10px] font-bold uppercase opacity-70 mb-1">
+                  Conversion Rate
+                </p>
+                <p class="text-2xl font-bold">68.4%</p>
+              </div>
+            </div>
+          </div>
+          <div
+            class="relative z-10 mt-auto flex items-center gap-2 text-sm font-medium opacity-80"
+          >
+            <span class="material-symbols-outlined">trending_up</span>
+            <span>Performance is up 14% compared to last fiscal quarter</span>
+          </div>
+        </div>
+        <!-- Quick Actions (Side) -->
+        <div
+          class="bg-gradient-to-b from-[#0f172a] via-[#1e3a8a] to-[#059669] rounded-2xl p-8 flex flex-col text-white shadow-xl border border-white/10"
+        >
+          <h3 class="text-xl font-bold mb-8 text-white/90">Quick Actions</h3>
+
+          <div class="space-y-4">
+            <!-- Primary Action - Create New Quote -->
+            <button
+              data-url="{% url 'quote' %}"
+              onclick="window.location.href = this.dataset.url"
+              id="btn-create-quote"
+              class="w-full bg-white/10 hover:bg-white/20 text-white font-bold py-4 px-6 rounded-lg flex items-center justify-between transition-all duration-300 group backdrop-blur-sm border border-white/20 shadow-lg hover:shadow-xl hover:scale-[1.02] active:scale-[0.98]"
+            >
+              <span>Create New Quote</span>
+              <span
+                class="material-symbols-outlined group-hover:translate-x-1 transition-transform duration-200"
+              >
+                add_circle
+              </span>
+            </button>
+
+            <!-- Secondary - View All Quotes -->
+            <button
+              id="btn-view-all-quotes"
+              class="w-full bg-white/5 hover:bg-white/10 text-white/90 border border-white/10 font-bold py-4 px-6 rounded-lg flex items-center justify-between transition-all duration-300 group hover:shadow-lg"
+            >
+              <span>View All Quotes</span>
+              <span
+                class="material-symbols-outlined group-hover:translate-x-1 transition-transform duration-200"
+              >
+                description
+              </span>
+            </button>
+
+            <!-- Tertiary - Materials Report -->
+            <button
+              id="btn-materials-report"
+              class="w-full bg-white/5 hover:bg-white/10 text-white/90 border border-white/10 font-bold py-4 px-6 rounded-lg flex items-center justify-between transition-all duration-300 group hover:shadow-lg"
+            >
+              <span>Materials Report</span>
+              <span
+                class="material-symbols-outlined group-hover:translate-x-1 transition-transform duration-200"
+              >
+                inventory_2
+              </span>
+            </button>
+          </div>
+
+          <!-- Bottom Card (unchanged) -->
+          <div class="mt-auto pt-8">
+            <div
+              class="bg-white/5 p-4 rounded-xl border border-white/10 backdrop-blur-sm"
+            >
+              <p
+                class="text-xs font-bold text-white/60 uppercase tracking-widest mb-3"
+              >
+                System Health
+              </p>
+              <div class="flex items-center gap-2">
+                <div
+                  class="w-2 h-2 rounded-full bg-green-400 animate-pulse"
+                ></div>
+                <span class="text-sm font-medium text-white/90">
+                  3D Engines Operational
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Secondary Row: Table and Map -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Recent Quotes Table -->
+        <div
+          class="lg:col-span-2 bg-white rounded-2xl overflow-hidden true-shadow"
+        >
+          <div
+            class="px-8 py-6 border-b border-slate-50 flex justify-between items-center"
+          >
+            <h3 class="text-lg font-bold text-on-surface">Recent Quotes</h3>
+            <button class="text-sm font-bold text-primary hover:underline">
+              See full history
+            </button>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-left">
+              <thead>
+                <tr class="bg-surface-container-low">
+                  <th
+                    class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-slate-500"
+                  >
+                    Quote ID
+                  </th>
+                  <th
+                    class="px-4 py-4 text-[10px] font-bold uppercase tracking-widest text-slate-500"
+                  >
+                    Client
+                  </th>
+                  <th
+                    class="px-4 py-4 text-[10px] font-bold uppercase tracking-widest text-slate-500"
+                  >
+                    Status
+                  </th>
+                  <th
+                    class="px-4 py-4 text-[10px] font-bold uppercase tracking-widest text-slate-500"
+                  >
+                    Created
+                  </th>
+                  <th
+                    class="px-8 py-4 text-[10px] font-bold uppercase tracking-widest text-slate-500 text-right"
+                  >
+                    Amount
+                  </th>
+                </tr>
+              </thead>
+              <tbody id="recent-quotes-body" class="divide-y divide-slate-50">
+                <!-- JS will inject rows here -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <!-- Recent Locations Map Card -->
+        <div class="flex flex-col gap-6">
+          <div
+            class="bg-surface-dim rounded-2xl h-48 relative overflow-hidden group"
+          >
+            <div
+              id="quote-map"
+              class="bg-slate-200 rounded-2xl h-48 relative overflow-hidden group"
+            >
+              <div
+                class="absolute inset-0 flex items-center justify-center text-slate-500"
+              >
+                <span class="material-symbols-outlined text-4xl"
+                  >location_on</span
+                >
+              </div>
+            </div>
+            <div
+              class="absolute inset-0 bg-primary/20 mix-blend-multiply"
+            ></div>
+            <div
+              class="absolute bottom-4 left-4 right-4 flex justify-between items-center"
+            >
+              <span
+                class="bg-white/90 backdrop-blur px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-widest shadow-sm"
+                >Live Location View</span
+              >
+              <div
+                class="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white shadow-lg"
+              >
+                <span
+                  class="material-symbols-outlined text-sm"
+                  style="font-variation-settings: &quot;FILL&quot; 1"
+                  >location_on</span
+                >
+              </div>
+            </div>
+          </div>
+          <div class="bg-white p-6 rounded-2xl true-shadow">
+            <div class="flex items-center justify-between mb-4">
+              <div>
+                <p
+                  class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1"
+                >
+                  Active Project
+                </p>
+                <h4 class="text-xl font-extrabold headline">
+                  Brooklyn Heights
+                </h4>
+              </div>
+              <div
+                class="w-10 h-10 bg-surface-container-low rounded-lg flex items-center justify-center"
+              >
+                <span class="material-symbols-outlined text-primary"
+                  >maps_home_work</span
+                >
+              </div>
+            </div>
+            <div class="space-y-3 mb-6">
+              <div class="flex justify-between text-sm">
+                <span class="text-slate-500">Quote Estimate</span>
+                <span class="font-bold">$18,500</span>
+              </div>
+              <div class="flex justify-between text-sm">
+                <span class="text-slate-500">Roofing System</span>
+                <span class="font-bold">Asphalt Shingles</span>
+              </div>
+            </div>
+            <button
+              class="w-full py-3 bg-surface-container-low hover:bg-surface-container-high rounded-xl text-primary text-sm font-bold transition-colors"
+            >
+              View Project Breakdown
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- Modal Overlay -->
+      <div
+        id="modal-overlay"
+        class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4"
+      >
+        <div
+          id="modal-content"
+          class="bg-white rounded-2xl max-w-4xl max-h-[90vh] overflow-y-auto shadow-2xl w-full"
+        >
+          <!-- Content loaded by JS -->
+        </div>
+      </div>
+    </main>
+    <!-- HIDDEN CSRF TOKEN -->
+    <input type="hidden" id="csrf-token" value="{% csrf_token %}" />
+
+    <script>
+      const API_BASE = "";
+      let map = null;
+      let contractorId = 1;
+
+      const csrftoken = document.getElementById("csrf-token").value;
+
+      async function fetchJSON(url, options = {}) {
+        const res = await fetch(url, {
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": csrftoken,
+            ...options.headers,
+          },
+          ...options,
+        });
+        if (!res.ok) {
+          console.error("API failed:", url, res.status);
+          return null;
+        }
+        return await res.json();
+      }
+
+      async function loadDashboardStats() {
+        const data = await fetchJSON("/quotes/dashboard/");
+        if (!data) return;
+
+        const counts = { draft: 0, sent: 0, approved: 0, rejected: 0 };
+        data.forEach((item) => (counts[item.status] = item.count));
+
+        document.getElementById("count-draft").textContent = counts.draft;
+        document.getElementById("count-sent").textContent = counts.sent;
+        document.getElementById("count-approved").textContent = counts.approved;
+        document.getElementById("count-rejected").textContent = counts.rejected;
+        console.log("📊 Stats loaded:", counts);
+      }
+
+      async function loadRecentQuotes() {
+        const data = await fetchJSON("/quotes/recent/");
+        const tbody = document.getElementById("recent-quotes-body");
+        if (!data || !tbody) return;
+
+        tbody.innerHTML =
+          data
+            .slice(0, 5)
+            .map(
+              (q) => `
+    <tr class="hover:bg-slate-50 transition-colors">
+      <td class="px-8 py-5 text-sm font-bold text-primary">#VQ-${q.id}</td>
+      <td class="px-4 py-5">
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 bg-slate-200 rounded-full"></div>
+          <span class="text-sm font-semibold">${q.clientid?.name || "Client"}</span>
+        </div>
+      </td>
+      <td class="px-4 py-5">
+        <span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-bold uppercase">${q.status}</span>
+      </td>
+      <td class="px-4 py-5 text-sm text-slate-500">${new Date(q.createdat).toLocaleDateString()}</td>
+      <td class="px-8 py-5 text-sm font-bold text-right">$0</td>
+    </tr>
+  `,
+            )
+            .join("") ||
+          '<tr><td colspan="5" class="p-8 text-center text-slate-500">No recent quotes</td></tr>';
+
+        console.log("📋 Recent quotes loaded:", data.length);
+      }
+
+      async function loadRevenue() {
+        const data = await fetchJSON("/quotes/revenue/");
+        if (!data?.[0]?.total_revenue) return;
+
+        document.getElementById("total-revenue").textContent =
+          `$${data[0].total_revenue.toLocaleString()}`;
+        console.log("💰 Revenue loaded");
+      }
+
+      async function initMap() {
+        map = L.map("quote-map").setView([37.7749, -122.4194], 10);
+        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png").addTo(
+          map,
+        );
+
+        const data = await fetchJSON("/quotes/locations/");
+        if (data) {
+          data.forEach((q) => {
+            if (q.latitude && q.longitude) {
+              L.marker([q.latitude, q.longitude])
+                .addTo(map)
+                .bindPopup(`Quote #${q.id}<br/>${q.status}`);
+            }
+          });
+        }
+        console.log("🗺️ Map ready");
+      }
+
+      async function createNewQuote() {
+        console.log("🆕 Creating quote...");
+        const data = await fetchJSON("/quotations/", {
+          method: "POST",
+          body: JSON.stringify({
+            contractorid: contractorId,
+            clientid: 1,
+            status: "draft",
+          }),
+        });
+        if (data) {
+          alert(`✅ Quote #${data.id} created!`);
+          location.reload();
+        } else {
+          alert("❌ Create failed");
+        }
+      }
+
+      function loadAllQuotes() {
+        console.log("📂 Loading all quotes...");
+        // Modal logic here (simplified for now)
+        alert("View All Quotes - Full implementation coming!");
+      }
+
+      function loadMaterialsReport() {
+        console.log("📈 Loading materials...");
+        alert("Materials Report - Full implementation coming!");
+      }
+
+      function getStatusBadgeClass(status) {
+        const classes = {
+          approved: "bg-green-100 text-green-700",
+          sent: "bg-blue-100 text-blue-700",
+          draft: "bg-yellow-100 text-yellow-700",
+          rejected: "bg-red-100 text-red-700",
+        };
+        return `px-3 py-1 ${classes[status] || "bg-slate-100 text-slate-700"} rounded-full text-xs font-bold uppercase`;
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        console.log("🚀 Starting VizQuote Dashboard");
+        console.log("🔑 CSRF:", csrftoken ? "Ready" : "Missing");
+
+        // Load data
+        loadDashboardStats();
+        loadRecentQuotes();
+        loadRevenue();
+        initMap();
+
+        // Button handlers
+        document.getElementById("btn-create-quote").onclick = createNewQuote;
+        document.getElementById("btn-view-all-quotes").onclick = loadAllQuotes;
+        document.getElementById("btn-materials-report").onclick =
+          loadMaterialsReport;
+
+        console.log(" All ready!");
+      });
+    </script>
+  </body>
+</html>

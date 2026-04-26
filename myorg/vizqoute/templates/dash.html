@@ -1,0 +1,718 @@
+{% load static %}
+<!doctype html>
+
+<html class="light" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>VizQuote Dashboard | Roofing Solutions</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "brand-blue": "#1E3A8A",
+              "brand-teal": "#00a395",
+              "surface-dim": "#d8dadc",
+              "primary-container": "#f1f5f9",
+              secondary: "#00a395",
+              "inverse-primary": "#bcc7de",
+              "on-secondary": "#ffffff",
+              "on-tertiary-container": "#4c8dff",
+              "on-primary": "#ffffff",
+              "primary-fixed": "#d8e3fb",
+              "inverse-on-surface": "#eff1f3",
+              "tertiary-container": "#00275b",
+              "on-secondary-container": "#006f66",
+              "on-primary-fixed": "#111c2d",
+              "surface-container": "#eceef0",
+              "primary-fixed-dim": "#bcc7de",
+              "outline-variant": "#c5c6cd",
+              tertiary: "#001334",
+              "on-surface": "#191c1e",
+              "on-error": "#ffffff",
+              "on-secondary-fixed": "#00201d",
+              "on-tertiary-fixed-variant": "#004395",
+              "surface-tint": "#545f73",
+              surface: "#f7f9fb",
+              "surface-bright": "#f7f9fb",
+              "on-tertiary": "#ffffff",
+              "on-secondary-fixed-variant": "#005049",
+              "on-error-container": "#93000a",
+              background: "#f7f9fb",
+              error: "#ba1a1a",
+              "inverse-surface": "#2d3133",
+              "surface-container-lowest": "#ffffff",
+              "surface-container-low": "#f2f4f6",
+              "on-primary-container": "#8590a6",
+              "on-background": "#191c1e",
+              "secondary-container": "#ccf1ee",
+              "surface-container-highest": "#e0e3e5",
+              "secondary-fixed": "#89f5e7",
+              "on-tertiary-fixed": "#001a42",
+              "on-surface-variant": "#45474c",
+              "on-primary-fixed-variant": "#3c475a",
+              "error-container": "#ffdad6",
+              "tertiary-fixed": "#d8e2ff",
+              outline: "#75777d",
+              "surface-variant": "#e0e3e5",
+              "secondary-fixed-dim": "#6bd8cb",
+              primary: "#091426",
+              "tertiary-fixed-dim": "#adc6ff",
+              "surface-container-high": "#e6e8ea",
+            },
+            fontFamily: {
+              headline: ["Manrope"],
+              body: ["Inter"],
+              label: ["Inter"],
+            },
+            borderRadius: {
+              DEFAULT: "0.25rem",
+              lg: "0.5rem",
+              xl: "0.75rem",
+              full: "9999px",
+            },
+            backgroundImage: {
+              "brand-gradient":
+                "linear-gradient(135deg, #1E3A8A 0%, #00a395 100%)",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings:
+          "FILL" 0,
+          "wght" 400,
+          "GRAD" 0,
+          "opsz" 24;
+      }
+      body {
+        font-family: "Inter", sans-serif;
+      }
+      h1,
+      h2,
+      h3 {
+        font-family: "Manrope", sans-serif;
+      }
+      .gradient-text {
+        background: linear-gradient(135deg, #1e3a8a 0%, #00a395 100%);
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+    </style>
+  </head>
+  <body class="bg-surface text-on-surface">
+    <!-- Sidebar Navigation -->
+    <aside
+      class="bg-[#091426] dark:bg-[#050a14] h-screen w-64 fixed left-0 top-0 z-40 shadow-2xl shadow-black/20 flex flex-col py-6 px-4"
+    >
+      <div class="mb-10 px-4">
+        <span class="text-2xl font-black tracking-tight text-white"
+          >VizQuote</span
+        >
+        <p
+          class="text-[0.7rem] uppercase tracking-widest text-slate-500 font-bold mt-1"
+        >
+          Roofing Solutions
+        </p>
+      </div>
+      <nav class="flex-1 space-y-2">
+        <!-- Active State: Dashboard with brand-gradient -->
+        <a
+          class="flex items-center gap-3 px-4 py-3 text-white bg-brand-gradient rounded-lg shadow-lg shadow-brand-blue/20 transition-transform duration-150"
+          href="{% url 'dashboard' %}"
+        >
+          <span class="material-symbols-outlined" data-icon="dashboard"
+            >dashboard</span
+          >
+          <span class="font-medium text-sm">Dashboard</span>
+        </a>
+        <a
+          class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-white hover:bg-white/5 transition-all duration-200"
+          href="{% url 'quote' %}"
+        >
+          <span class="material-symbols-outlined" data-icon="architecture"
+            >architecture</span
+          >
+          <span class="font-medium text-sm">Quote Builder</span>
+        </a>
+        <a
+          class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-white hover:bg-white/5 transition-all duration-200"
+          href="{% url 'contractor' %}"
+        >
+          <span class="material-symbols-outlined" data-icon="architecture"
+            >Dashboard</span
+          >
+          <span class="font-medium text-sm">Contractor Dashboard</span>
+        </a>
+        <a
+          class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-white hover:bg-white/5 transition-all duration-200"
+          href="{% url '3dview' %}"
+        >
+          <span class="material-symbols-outlined" data-icon="view_in_ar"
+            >view_in_ar</span
+          >
+          <span class="font-medium text-sm">3D Preview</span>
+        </a>
+        <!-- Dynamic Client Selector -->
+        <div class="flex items-center gap-3 px-4 py-3">
+          <span class="material-symbols-outlined text-slate-400">group</span>
+          <select
+            onchange="window.location = '/client/' + this.value"
+            class="bg-transparent border-none text-sm font-medium text-slate-400 hover:text-white focus:outline-none"
+          >
+            <option value="">Client Portal</option>
+            {% for client in clients %}
+            <option value="{{ client.name|slugify }}">{{ client.name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <a
+          class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-white hover:bg-white/5 transition-all duration-200"
+          href="{% url 'admin' %}"
+        >
+          <span
+            class="material-symbols-outlined"
+            data-icon="admin_panel_settings"
+            >admin_panel_settings</span
+          >
+          <span class="font-medium text-sm">Analytics</span>
+        </a>
+      </nav>
+      <div class="mt-auto space-y-2 pt-6 border-t border-white/5">
+        <a
+          class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-white transition-colors"
+          href="#"
+        >
+          <span class="material-symbols-outlined" data-icon="settings"
+            >settings</span
+          >
+          <span class="font-medium text-sm">Settings</span>
+        </a>
+        <a
+          class="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-white transition-colors"
+          href="#"
+        >
+          <span class="material-symbols-outlined" data-icon="help">help</span>
+          <span class="font-medium text-sm">Support</span>
+        </a>
+      </div>
+    </aside>
+    <!-- Top Navbar -->
+    <header
+      class="bg-white/80 backdrop-blur-xl fixed top-0 right-0 w-[calc(100%-16rem)] z-30 flex justify-between items-center h-16 px-8 ml-64"
+    >
+      <div class="flex items-center w-full max-w-xl">
+        <div class="relative w-full group">
+          <span
+            class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-brand-teal transition-colors"
+            data-icon="search"
+            >search</span
+          >
+          <input
+            class="w-full bg-surface-container-low border-none rounded-full py-2 pl-10 pr-4 text-sm focus:ring-2 focus:ring-brand-teal/20 transition-all outline-none"
+            placeholder="Search projects, quotes, or clients..."
+            type="text"
+          />
+        </div>
+      </div>
+      <div class="flex items-center gap-4">
+        <button
+          class="hover:bg-slate-100 rounded-full p-2 transition-all relative"
+        >
+          <span
+            class="material-symbols-outlined text-slate-600"
+            data-icon="notifications"
+            >notifications</span
+          >
+          <span
+            class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"
+          ></span>
+        </button>
+        <button class="hover:bg-slate-100 rounded-full p-2 transition-all">
+          <span
+            class="material-symbols-outlined text-slate-600"
+            data-icon="help"
+            >help</span
+          >
+        </button>
+        <div class="h-8 w-[1px] bg-outline-variant/20 mx-2"></div>
+        <div class="flex items-center gap-3">
+          <div class="text-right hidden sm:block">
+            <p class="text-xs font-bold text-primary">Alex Sterling</p>
+            <p class="text-[10px] text-slate-500 uppercase font-semibold">
+              Senior Architect
+            </p>
+          </div>
+          <img
+            alt="User profile"
+            class="h-10 w-10 rounded-full object-cover border-2 border-surface-container-highest"
+            data-alt="Professional male architect portrait"
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAQ3fMuJi_hg0smCgZewmzg8UML-kyjchnwAWaRFa_czU1PNtkq8SVo-DZsWnBtosSQEyVgpnDzAShwtgXUJqWhfC6r1qAHQXf1OG_PgqbAk-6tWSKuSaSlNw6hA2qhNOVYbGWNcLyZOJ-uLBBdAIHQpm5GknREQSwyG2KQkRs7_Oic45r3cCxOI9aW_xl3cIEIdT1siarsqXeO6GtPC7--EpZXV7EifavANMwOrjYZDBntNesU4J3t9MVfB2v3iJm0z3b4t6BGdRmN"
+          />
+        </div>
+      </div>
+    </header>
+    <!-- Main Content Area -->
+    <main class="ml-64 pt-16 min-h-screen">
+      <div class="p-8 max-w-7xl mx-auto space-y-10">
+        <!-- Welcome Section -->
+        <section
+          class="flex flex-col md:flex-row justify-between items-end gap-6"
+        >
+          <div class="space-y-1">
+            <h1 class="text-4xl font-extrabold tracking-tight text-primary">
+              Welcome back
+            </h1>
+            <p class="text-on-surface-variant font-medium">
+              Your roofing pipeline is looking strong today. You have
+              <span class="gradient-text font-bold">12 approvals</span> waiting.
+            </p>
+          </div>
+          <div class="flex gap-3">
+            <button
+              data-url="{% url 'quote' %}"
+              onclick="window.location.href = this.dataset.url"
+              class="flex items-center gap-2 bg-brand-gradient text-on-primary px-6 py-3 rounded-xl font-bold text-sm shadow-xl shadow-brand-blue/20 hover:scale-[1.02] transition-transform"
+            >
+              <span
+                class="material-symbols-outlined text-sm"
+                data-icon="add_circle"
+                >add_circle</span
+              >
+              Create New Quote
+            </button>
+          </div>
+        </section>
+        <!-- Stats Grid -->
+        <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <!-- Stat Card 1 -->
+          <div
+            class="bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-outline-variant/10 group hover:border-brand-teal/30 transition-all"
+          >
+            <div class="flex justify-between items-start mb-4">
+              <div class="p-3 bg-brand-blue/5 rounded-lg text-brand-blue">
+                <span class="material-symbols-outlined" data-icon="description"
+                  >description</span
+                >
+              </div>
+              <span
+                class="text-xs font-bold text-brand-teal bg-brand-teal/10 px-2 py-1 rounded-full"
+                >+12%</span
+              >
+            </div>
+            <p class="text-sm font-semibold text-on-surface-variant">
+              Total Quotes
+            </p>
+            <h3
+              id="total-quotes"
+              class="text-2xl font-extrabold text-primary mt-1"
+            >
+              0
+            </h3>
+          </div>
+          <!-- Stat Card 2 -->
+          <div
+            class="bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-outline-variant/10 group hover:border-brand-teal/30 transition-all"
+          >
+            <div class="flex justify-between items-start mb-4">
+              <div class="p-3 bg-brand-teal/5 rounded-lg text-brand-teal">
+                <span class="material-symbols-outlined" data-icon="engineering"
+                  >engineering</span
+                >
+              </div>
+              <span
+                class="text-xs font-bold text-brand-teal bg-brand-teal/10 px-2 py-1 rounded-full"
+                >Active</span
+              >
+            </div>
+            <p class="text-sm font-semibold text-on-surface-variant">
+              Active Projects
+            </p>
+            <h3
+              id="active-projects"
+              class="text-2xl font-extrabold text-primary mt-1"
+            >
+              0
+            </h3>
+          </div>
+          <!-- Stat Card 3 -->
+          <div
+            class="bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-outline-variant/10 group hover:border-brand-teal/30 transition-all"
+          >
+            <div class="flex justify-between items-start mb-4">
+              <div class="p-3 bg-brand-blue/5 rounded-lg text-brand-blue">
+                <span
+                  class="material-symbols-outlined"
+                  data-icon="pending_actions"
+                  >pending_actions</span
+                >
+              </div>
+              <span
+                class="text-xs font-bold text-error bg-error/10 px-2 py-1 rounded-full"
+                >High Priority</span
+              >
+            </div>
+            <p class="text-sm font-semibold text-on-surface-variant">
+              Pending Approvals
+            </p>
+            <h3
+              id="pending-approvals"
+              class="text-2xl font-extrabold text-primary mt-1"
+            >
+              0
+            </h3>
+          </div>
+          <!-- Stat Card 4 -->
+          <div
+            class="bg-surface-container-lowest p-6 rounded-xl shadow-sm border border-outline-variant/10 group hover:border-brand-teal/30 transition-all"
+          >
+            <div class="flex justify-between items-start mb-4">
+              <div class="p-3 bg-brand-teal/5 rounded-lg text-brand-teal">
+                <span class="material-symbols-outlined" data-icon="payments"
+                  >payments</span
+                >
+              </div>
+              <span
+                class="text-xs font-bold text-brand-teal bg-brand-teal/10 px-2 py-1 rounded-full"
+                >+8%</span
+              >
+            </div>
+            <p class="text-sm font-semibold text-on-surface-variant">
+              Revenue Generated
+            </p>
+            <h3
+              id="total-revenue"
+              class="text-2xl font-extrabold text-primary mt-1"
+            >
+              $0
+            </h3>
+          </div>
+        </section>
+        <!-- Quick Actions & 3D Highlight -->
+        <section class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div class="lg:col-span-2 space-y-6">
+            <div
+              class="bg-surface-container-lowest rounded-xl p-8 overflow-hidden relative group"
+            >
+              <div class="relative z-10 max-w-md">
+                <span
+                  class="text-xs font-black gradient-text tracking-widest uppercase mb-4 block"
+                  >New Technology</span
+                >
+                <h2 class="text-3xl font-extrabold text-primary mb-4">
+                  Interactive 3D Roof Engine
+                </h2>
+                <p class="text-on-surface-variant mb-8 font-medium">
+                  Visualize materials, gradients, and drainage layouts in
+                  real-time. Boost your closing rate by 40%.
+                </p>
+                <div class="flex gap-4">
+                  <button
+                    data-url="{% url '3dview' %}"
+                    onclick="window.location.href = this.dataset.url"
+                    class="bg-brand-gradient text-white px-6 py-3 rounded-xl font-bold text-sm flex items-center gap-2 hover:opacity-90 shadow-lg shadow-brand-blue/20"
+                  >
+                    <span
+                      class="material-symbols-outlined"
+                      data-icon="view_in_ar"
+                      >view_in_ar</span
+                    >
+                    View Full Preview
+                  </button>
+                  <button
+                    class="bg-surface-container-low text-primary px-6 py-3 rounded-xl font-bold text-sm border border-outline-variant/20 hover:bg-surface-container-high"
+                  >
+                    Tutorial
+                  </button>
+                </div>
+              </div>
+              <div
+                class="absolute right-0 top-0 bottom-0 w-1/2 bg-gradient-to-l from-brand-blue/5 to-transparent"
+              ></div>
+              <img
+                alt="3D Roof Model"
+                class="absolute -right-20 -bottom-20 w-[400px] h-[400px] object-cover rounded-full mix-blend-multiply opacity-80 group-hover:scale-105 transition-transform duration-700"
+                data-alt="3D architectural visualization of a modern roof"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCCklwGUCMyEdpjln9wZUMw9VD5bZT-ZB3aU1O-w29pIdYYw_3KmFHSwHA7WOKiPjp6_0WVE4-bgxne-1iooGn6QAnjqWjyGrPZw_R2DSY0iOb_-sOxk4hilM6S5XVDFMfPPXs70GZ5QdI4crjb40sE4JgRBG7qZhnOGZ5NrJQcV65BvfilfKKBM_SzANSauB5Y_yUP2PZF-tJpeMWDwRBn1gsACRalNWKOpgHCZlLADcUccFG0h-QyuiArMYzgaYX1Y63vMDwA4cfZ"
+              />
+            </div>
+            <div class="flex flex-wrap gap-4">
+              <button
+                class="flex-1 min-w-[200px] bg-white border border-outline-variant/20 p-4 rounded-xl flex items-center gap-4 hover:shadow-lg hover:shadow-brand-blue/5 hover:border-brand-teal/30 transition-all"
+              >
+                <div
+                  class="w-12 h-12 bg-brand-blue/5 text-brand-blue rounded-lg flex items-center justify-center"
+                >
+                  <span
+                    class="material-symbols-outlined"
+                    data-icon="upload_file"
+                    >upload_file</span
+                  >
+                </div>
+                <div class="text-left">
+                  <p class="text-sm font-bold text-primary">Upload Roof Plan</p>
+                  <p class="text-xs text-on-surface-variant">
+                    PDF, DWG, or JPG
+                  </p>
+                </div>
+              </button>
+              <button
+                class="flex-1 min-w-[200px] bg-white border border-outline-variant/20 p-4 rounded-xl flex items-center gap-4 hover:shadow-lg hover:shadow-brand-blue/5 hover:border-brand-teal/30 transition-all"
+              >
+                <div
+                  class="w-12 h-12 bg-brand-teal/5 text-brand-teal rounded-lg flex items-center justify-center"
+                >
+                  <span class="material-symbols-outlined" data-icon="layers"
+                    >layers</span
+                  >
+                </div>
+                <div class="text-left">
+                  <p class="text-sm font-bold text-primary">
+                    Generate 3D Preview
+                  </p>
+                  <p class="text-xs text-on-surface-variant">
+                    AI-Assisted Modeling
+                  </p>
+                </div>
+              </button>
+            </div>
+          </div>
+          <!-- Notifications Panel -->
+          <div id="notifications-list" class="space-y-6">
+            <!-- Dynamic notifications -->
+          </div>
+        </section>
+        <!-- Recent Quotes Table -->
+        <section class="space-y-6 pb-12">
+          <div class="flex justify-between items-end">
+            <h2 class="text-2xl font-extrabold text-primary">Recent Quotes</h2>
+            <div class="flex gap-2">
+              <button
+                class="px-4 py-2 text-xs font-bold bg-brand-teal/10 text-brand-teal rounded-lg"
+              >
+                All
+              </button>
+              <button
+                class="px-4 py-2 text-xs font-bold text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-colors"
+              >
+                Pending
+              </button>
+              <button
+                class="px-4 py-2 text-xs font-bold text-on-surface-variant hover:bg-surface-container-high rounded-lg transition-colors"
+              >
+                Completed
+              </button>
+            </div>
+          </div>
+          <div
+            class="bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/10 overflow-hidden"
+          >
+            <table class="w-full text-left">
+              <thead>
+                <tr
+                  class="bg-surface-container-low border-b border-outline-variant/10"
+                >
+                  <th
+                    class="px-6 py-4 text-xs font-black text-on-surface-variant uppercase tracking-wider"
+                  >
+                    Client Name
+                  </th>
+                  <th
+                    class="px-6 py-4 text-xs font-black text-on-surface-variant uppercase tracking-wider"
+                  >
+                    Project Type
+                  </th>
+                  <th
+                    class="px-6 py-4 text-xs font-black text-on-surface-variant uppercase tracking-wider"
+                  >
+                    Status
+                  </th>
+                  <th
+                    class="px-6 py-4 text-xs font-black text-on-surface-variant uppercase tracking-wider text-right"
+                  >
+                    Cost
+                  </th>
+                  <th
+                    class="px-6 py-4 text-xs font-black text-on-surface-variant uppercase tracking-wider text-right"
+                  >
+                    Date
+                  </th>
+                </tr>
+              </thead>
+              <tbody
+                id="recent-quotes-table"
+                class="divide-y divide-outline-variant/5"
+              >
+                <!-- Dynamic rows -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+    </main>
+    <!-- CSRF Token -->
+    <input type="hidden" id="csrf-token" value="{% csrf_token %}" />
+
+    <script>
+      const API_BASE = "";
+      const csrftoken = document.getElementById("csrf-token").value;
+
+      async function fetchJSON(url, options = {}) {
+        const res = await fetch(url, {
+          headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": csrftoken,
+            ...options?.headers,
+          },
+          ...options,
+        });
+        if (!res.ok) {
+          console.error("API Error:", url, res.status);
+          return null;
+        }
+        return res.json();
+      }
+
+      async function loadStats() {
+        // Total quotes
+        const allQuotes = await fetchJSON("/quotes/recent/");
+        document.getElementById("total-quotes").textContent =
+          allQuotes?.length || 0;
+
+        // Dashboard stats (approved, etc.)
+        const stats = await fetchJSON("/quotes/dashboard/");
+        const approvedCount =
+          stats?.find((s) => s.status === "approved")?.count || 0;
+        document.getElementById("pending-approvals").textContent =
+          stats?.find((s) => s.status === "sent")?.count || 0;
+
+        // Revenue
+        const revenue = await fetchJSON("/quotes/revenue/");
+        document.getElementById("total-revenue").textContent =
+          `$${revenue?.[0]?.total_revenue?.toLocaleString() || 0}`;
+
+        // Active projects (quotes not rejected + not approved? Mock for now)
+        document.getElementById("active-projects").textContent =
+          Math.floor(approvedCount * 0.3) || 0;
+
+        console.log("📊 Dashboard stats loaded");
+      }
+
+      async function loadRecentQuotes() {
+        const quotes = await fetchJSON("/quotes/recent/");
+        const tbody = document.getElementById("recent-quotes-table");
+        if (!quotes || !tbody) return;
+
+        tbody.innerHTML =
+          quotes
+            .slice(0, 4)
+            .map(
+              (q) => `
+    <tr class="hover:bg-surface-container-low/50 transition-colors">
+      <td class="px-6 py-5">
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-full bg-brand-teal/10 text-brand-teal flex items-center justify-center font-bold text-xs">
+            ${q.clientid?.name?.slice(0, 2).toUpperCase() || "CL"}
+          </div>
+          <span class="text-sm font-bold text-primary">${q.clientid?.name || "Client"}</span>
+        </div>
+      </td>
+      <td class="px-6 py-5 text-sm font-medium text-on-surface-variant">
+        ${q.roofingspecs?.[0]?.materialtype || "Roofing Project"}
+      </td>
+      <td class="px-6 py-5">
+        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold 
+          ${
+            q.status === "approved"
+              ? "bg-brand-teal/10 text-brand-teal"
+              : q.status === "sent"
+                ? "bg-brand-blue/10 text-brand-blue"
+                : q.status === "rejected"
+                  ? "bg-error-container text-error"
+                  : "bg-orange-100 text-orange-700"
+          }">
+          ${q.status.charAt(0).toUpperCase() + q.status.slice(1)}
+        </span>
+      </td>
+      <td class="px-6 py-5 text-sm font-bold text-primary text-right">
+        $${q.items?.reduce((sum, i) => sum + parseFloat(i.totalprice || 0), 0).toLocaleString() || 0}
+      </td>
+      <td class="px-6 py-5 text-sm font-medium text-on-surface-variant text-right">
+        ${new Date(q.createdat).toLocaleDateString()}
+      </td>
+    </tr>
+  `,
+            )
+            .join("") ||
+          '<tr><td colspan="5" class="p-12 text-center text-on-surface-variant">No recent quotes</td></tr>';
+
+        console.log("📋 Recent quotes table loaded");
+      }
+
+      async function loadNotifications() {
+        const quotes = await fetchJSON("/quotes/recent/");
+        const list = document.getElementById("notifications-list");
+        if (!quotes || !list) return;
+
+        const events = [];
+        quotes.slice(0, 4).forEach((q) => {
+          const statuses = {
+            approved: { color: "brand-teal", text: "Quote Approved" },
+            sent: { color: "brand-blue", text: "Quote Sent" },
+            rejected: { color: "error", text: "Quote Rejected" },
+          };
+          const status = statuses[q.status] || {
+            color: "slate",
+            text: "Quote Updated",
+          };
+
+          events.push(`
+      <div class="flex gap-4">
+        <div class="w-2 h-2 mt-2 rounded-full bg-${status.color} shrink-0"></div>
+        <div>
+          <p class="text-sm font-semibold text-primary">
+            ${status.text}: ${q.clientid?.name || "Project"}
+          </p>
+          <p class="text-xs text-on-surface-variant mt-1">
+            By ${q.contractorid?.name || "System"} • ${Math.floor(Math.random() * 60)}m ago
+          </p>
+        </div>
+      </div>
+    `);
+        });
+
+        list.innerHTML =
+          events.join("") ||
+          '<p class="text-center text-on-surface-variant py-8">No recent activity</p>';
+        console.log("🔔 Notifications loaded");
+      }
+
+      document.addEventListener("DOMContentLoaded", async () => {
+        console.log("🚀 Main Dashboard Loaded");
+
+        await Promise.all([
+          loadStats(),
+          loadRecentQuotes(),
+          loadNotifications(),
+        ]);
+
+        console.log("✅ All dashboard data loaded!");
+      });
+    </script>
+  </body>
+</html>

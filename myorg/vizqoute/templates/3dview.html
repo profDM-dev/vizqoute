@@ -1,0 +1,490 @@
+{% load static %}
+<!doctype html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>VizQuote - 3D Preview &amp; Quote Review</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-primary-container": "#ffffff",
+              "secondary-container": "#b2c9fe",
+              "on-primary-fixed": "#001a41",
+              "inverse-surface": "#2d3038",
+              "surface-container-low": "#f2f3fd",
+              "surface-variant": "#e0e2ec",
+              "surface-tint": "#005bc0",
+              "on-tertiary-container": "#0e0200",
+              "primary-fixed-dim": "#adc7ff",
+              "on-tertiary-fixed": "#341100",
+              "surface-container-lowest": "#ffffff",
+              background: "#f9f9ff",
+              "on-primary": "#ffffff",
+              "on-secondary-container": "#3d5481",
+              "tertiary-fixed": "#ffdbcb",
+              "inverse-primary": "#adc7ff",
+              "error-container": "#ffdad6",
+              "inverse-on-surface": "#eff0fa",
+              "surface-dim": "#d8d9e3",
+              "on-secondary": "#ffffff",
+              "surface-bright": "#f9f9ff",
+              "surface-container-high": "#e6e8f2",
+              "on-background": "#191c23",
+              outline: "#727785",
+              "surface-container": "#ecedf7",
+              tertiary: "#9e4300",
+              "on-tertiary": "#ffffff",
+              "on-surface": "#191c23",
+              "tertiary-container": "#c55500",
+              "tertiary-fixed-dim": "#ffb691",
+              "on-primary-fixed-variant": "#004493",
+              primary: "#005bbf",
+              "on-tertiary-fixed-variant": "#783100",
+              "outline-variant": "#c1c6d6",
+              secondary: "#475e8c",
+              "primary-container": "#1a73e8",
+              "surface-container-highest": "#e0e2ec",
+              "on-error-container": "#93000a",
+              "on-secondary-fixed-variant": "#2e4673",
+              "primary-fixed": "#d8e2ff",
+              "on-secondary-fixed": "#001a41",
+              surface: "#f9f9ff",
+              "on-surface-variant": "#414754",
+              error: "#ba1a1a",
+              "on-error": "#ffffff",
+              "secondary-fixed": "#d8e2ff",
+              "secondary-fixed-dim": "#afc7fb",
+            },
+            fontFamily: {
+              headline: ["Manrope"],
+              body: ["Inter"],
+              label: ["Inter"],
+            },
+            borderRadius: {
+              DEFAULT: "0.25rem",
+              lg: "0.5rem",
+              xl: "0.75rem",
+              full: "9999px",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings:
+          "FILL" 0,
+          "wght" 400,
+          "GRAD" 0,
+          "opsz" 24;
+      }
+      body {
+        font-family: "Inter", sans-serif;
+      }
+      h1,
+      h2,
+      h3,
+      .display-font {
+        font-family: "Manrope", sans-serif;
+      }
+      .glass-panel {
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+      }
+    </style>
+  </head>
+  <body class="bg-background text-on-surface antialiased overflow-hidden">
+    <!-- TopNavBar -->
+    <nav
+      class="fixed top-0 w-full z-40 bg-white/70 dark:bg-slate-950/70 backdrop-blur-md shadow-[0_16px_48px_-12px_rgba(0,0,0,0.06)] h-16 flex justify-between items-center px-8 max-w-[1920px] mx-auto"
+    >
+      <div class="flex items-center gap-8">
+        <a
+          class="text-2xl font-extrabold tracking-tighter text-blue-900 dark:text-blue-200 hover:opacity-80 transition-opacity"
+          href="#"
+          >VizQuote</a
+        >
+        <div class="hidden md:flex gap-6 items-center">
+          <div
+            class="flex items-center gap-2 px-3 py-1 bg-surface-container rounded-full"
+          >
+            <span class="material-symbols-outlined text-sm text-outline"
+              >calendar_today</span
+            >
+            <span class="text-xs font-semibold text-on-surface-variant"
+              >Expires: Oct 24, 2023</span
+            >
+          </div>
+          <div
+            class="flex items-center gap-2 px-3 py-1 bg-surface-container rounded-full"
+          >
+            <span class="material-symbols-outlined text-sm text-outline"
+              >visibility</span
+            >
+            <span class="text-xs font-semibold text-on-surface-variant"
+              >142 Views</span
+            >
+          </div>
+        </div>
+      </div>
+      <div class="flex items-center gap-4">
+        <button
+          class="p-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors duration-300 rounded-full"
+        >
+          <span class="material-symbols-outlined">notifications</span>
+        </button>
+        <button
+          class="p-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors duration-300 rounded-full"
+        >
+          <span class="material-symbols-outlined">help_outline</span>
+        </button>
+        <div
+          class="h-8 w-8 rounded-full overflow-hidden border border-outline-variant"
+        >
+          <img
+            alt="User Profile"
+            data-alt="User profile avatar of a male professional"
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAQBSZWAv9Wr8V9th-acCAWu_xCgfrY6Uy05MSpzONT4hUyNLTo8NFJuF6pozctgQrxaZRDoi2Zd-2ZfS0nnhnGZ9UPhbQ1fAmh2VUYkL8R_GM0mvHjmDNbGIR9SQb9W_gJ6iUBMIQrYE6FyryD4fjgg7y7lM6eDbSp97KjIDSP3F5sO-1raqQ4DuR72e5sTRvTqBnlyZMcCjTOWbtJlk3R75E0FpHXddT-2U5pBe33cnMbUnTAjMoT_Uw2ALjih8wyNqlkaxvuMBhV"
+          />
+        </div>
+      </div>
+    </nav>
+    <!-- Main Content Area -->
+    <main class="pt-16 h-screen flex flex-col md:flex-row overflow-hidden">
+      <!-- Left Section: 3D Preview -->
+      <section class="flex-grow relative bg-surface-dim overflow-hidden">
+        <!-- 3D View Controls / Overlays -->
+        <div class="absolute top-6 left-6 z-10 flex flex-wrap gap-3">
+          <div class="glass-panel px-4 py-2 rounded-xl flex flex-col shadow-sm">
+            <span
+              class="text-[10px] uppercase tracking-widest font-bold text-primary mb-1"
+              >Roof Area</span
+            >
+            <span class="text-lg font-extrabold font-headline"
+              >2,450 <span class="text-xs font-medium">sq ft</span></span
+            >
+          </div>
+          <div class="glass-panel px-4 py-2 rounded-xl flex flex-col shadow-sm">
+            <span
+              class="text-[10px] uppercase tracking-widest font-bold text-primary mb-1"
+              >Pitch Angle</span
+            >
+            <span class="text-lg font-extrabold font-headline">6/12</span>
+          </div>
+          <div class="glass-panel px-4 py-2 rounded-xl flex flex-col shadow-sm">
+            <span
+              class="text-[10px] uppercase tracking-widest font-bold text-primary mb-1"
+              >Material</span
+            >
+            <span class="text-lg font-extrabold font-headline">Asphalt</span>
+          </div>
+        </div>
+        <!-- Main Interactive Visualization Area -->
+        <div class="w-full h-full flex items-center justify-center relative">
+          <!-- Background Map / Aerial Image -->
+          <img
+            alt="Site Map"
+            class="absolute inset-0 w-full h-full object-cover opacity-40 mix-blend-multiply"
+            data-alt="Aerial satellite view of a suburban residential roof"
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDComseX83qm2qQ1ku3Pz_4kkmItC_7OfCsZc3g0YF5F89rnlLsyVMmqdlOLX_HpiupgH7tV3yvqH4dZK_BTf-K29bukC721RtKrhL8Uu8I6K_z6JqdmvldNUx_H6sxJv0eAwHl7CYZFAMw8_dRHt3UEmVDgLK5qEbRvAkJ2gheapE4_T_DOxEdOoapDL3A-tElgLZcpuAx_atk5x3kgmjkDaaSAycUSsrbXFWKiMQbsKZZ6GCPxiZJs3HqW6TP8LbJOoNSCrZX_6KE"
+          />
+          <!-- 3D Roof Model Container -->
+          <div class="relative z-0 group">
+            <div
+              class="absolute -inset-20 bg-primary/10 blur-3xl rounded-full transition-all duration-500 group-hover:bg-primary/20"
+            ></div>
+            <img
+              alt="3D Roof Model"
+              class="relative h-[614px] object-contain drop-shadow-2xl"
+              data-alt="Technical 3D wireframe render of a gabled roof structure"
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuD857Vg-_gvujL68w9o4AiXLiyEeCRxW57kqrBbeRLAbayep4skD_EexarV-tRuSDF1HITJYH84XY4yU3sLu6L2KrQxcbFzMmJGNy7bs-6WRTqkT4jmnAasZT3-SvRk4TdvndJdXtJy0LmwLXc4DKywnY7VGkaQrkYMfgWr2rrdOpTomrc669w70dVgULPZY-bLE5QtXb8aj-XkLF189N-5hr8qC5gsf7i9z0lAE1oE8Bhmhq6orweh5MJb20tKi9boXqFx3ATTN9iZ"
+            />
+          </div>
+          <!-- Floating Glass Pill Controls -->
+          <div
+            class="absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-1 p-1.5 glass-panel rounded-full shadow-lg border border-white/20"
+          >
+            <button class="p-2 hover:bg-white rounded-full transition-all">
+              <span class="material-symbols-outlined text-on-surface"
+                >zoom_in</span
+              >
+            </button>
+            <button class="p-2 hover:bg-white rounded-full transition-all">
+              <span class="material-symbols-outlined text-on-surface"
+                >zoom_out</span
+              >
+            </button>
+            <div class="w-px h-6 bg-outline-variant mx-1"></div>
+            <button class="p-2 hover:bg-white rounded-full transition-all">
+              <span class="material-symbols-outlined text-on-surface"
+                >3d_rotation</span
+              >
+            </button>
+            <button
+              class="p-2 bg-primary text-white rounded-full transition-all shadow-md shadow-primary/20"
+            >
+              <span class="material-symbols-outlined">layers</span>
+            </button>
+            <button class="p-2 hover:bg-white rounded-full transition-all">
+              <span class="material-symbols-outlined text-on-surface"
+                >measuring_tape</span
+              >
+            </button>
+          </div>
+        </div>
+      </section>
+      <!-- Right Section: Quote Sidebar -->
+      <aside
+        class="w-full md:w-[480px] h-full bg-white border-l border-surface-container-high overflow-y-auto custom-scrollbar flex flex-col"
+      >
+        <div class="p-8 pb-0">
+          <a
+            class="flex items-center gap-2 text-xs font-bold text-primary hover:underline uppercase tracking-widest"
+            href="{% url 'dashboard' %}"
+          >
+            <span class="material-symbols-outlined text-sm">arrow_back</span>
+            Back to Dashboard
+          </a>
+        </div>
+        <!-- Sidebar Header / Quote Summary -->
+        <div class="p-8 border-b border-surface-container-low">
+          <div class="flex justify-between items-start mb-6">
+            <div>
+              <span
+                class="text-[10px] font-bold uppercase tracking-[0.2em] text-outline mb-1 block"
+                >Quote #VQ-77291</span
+              >
+              <h2
+                class="text-3xl font-extrabold font-headline tracking-tight text-on-surface"
+              >
+                Quote Summary
+              </h2>
+            </div>
+            <span
+              class="px-3 py-1 bg-blue-50 text-blue-700 text-[10px] font-bold rounded-full border border-blue-100"
+              >DRAFT</span
+            >
+          </div>
+          <div class="grid grid-cols-2 gap-4 mb-8">
+            <div class="p-4 bg-surface-container-low rounded-xl">
+              <p
+                class="text-[10px] font-semibold text-outline-variant uppercase mb-1"
+              >
+                Issue Date
+              </p>
+              <p class="font-bold text-on-surface">Sep 24, 2023</p>
+            </div>
+            <div
+              class="p-4 bg-surface-container-low rounded-xl border-l-4 border-primary"
+            >
+              <p class="text-[10px] font-semibold text-primary uppercase mb-1">
+                Total Project Cost
+              </p>
+              <p class="text-2xl font-black font-headline text-on-surface">
+                $18,750
+              </p>
+            </div>
+          </div>
+          <!-- Roof Specs -->
+          <div class="space-y-3">
+            <h3
+              class="text-xs font-bold uppercase tracking-widest text-on-surface-variant flex items-center gap-2"
+            >
+              <span class="material-symbols-outlined text-sm"
+                >architecture</span
+              >
+              Roofing Specifications
+            </h3>
+            <div class="flex flex-wrap gap-2">
+              <span
+                class="px-3 py-1 bg-surface rounded text-xs font-medium border border-outline-variant/30"
+                >2,450 sq ft</span
+              >
+              <span
+                class="px-3 py-1 bg-surface rounded text-xs font-medium border border-outline-variant/30"
+                >Asphalt Shingles</span
+              >
+              <span
+                class="px-3 py-1 bg-surface rounded text-xs font-medium border border-outline-variant/30"
+                >Pitch 6/12</span
+              >
+              <span
+                class="px-3 py-1 bg-surface rounded text-xs font-medium border border-outline-variant/30"
+                >Charcoal Grey</span
+              >
+            </div>
+          </div>
+        </div>
+        <!-- Itemized Breakdown -->
+        <div class="p-8 space-y-6">
+          <div class="flex justify-between items-end">
+            <h3
+              class="text-xs font-bold uppercase tracking-widest text-on-surface-variant"
+            >
+              Itemized Breakdown
+            </h3>
+            <span class="text-[10px] text-outline font-medium"
+              >All prices in USD</span
+            >
+          </div>
+          <div
+            class="space-y-px overflow-hidden rounded-xl border border-surface-container-high"
+          >
+            <div class="flex justify-between p-4 bg-surface items-center">
+              <span class="text-sm font-medium text-on-surface-variant"
+                >Shingle Materials (Premium)</span
+              >
+              <span class="font-bold text-on-surface">$6,450.00</span>
+            </div>
+            <div
+              class="flex justify-between p-4 bg-surface-container-low items-center"
+            >
+              <span class="text-sm font-medium text-on-surface-variant"
+                >Underlayment &amp; Ice/Water Shield</span
+              >
+              <span class="font-bold text-on-surface">$1,200.00</span>
+            </div>
+            <div class="flex justify-between p-4 bg-surface items-center">
+              <span class="text-sm font-medium text-on-surface-variant"
+                >Ridge Cap Shingles</span
+              >
+              <span class="font-bold text-on-surface">$850.00</span>
+            </div>
+            <div
+              class="flex justify-between p-4 bg-surface-container-low items-center"
+            >
+              <span class="text-sm font-medium text-on-surface-variant"
+                >Flashing &amp; Ventilation Systems</span
+              >
+              <span class="font-bold text-on-surface">$1,100.00</span>
+            </div>
+            <div class="flex justify-between p-4 bg-surface items-center">
+              <span class="text-sm font-medium text-on-surface-variant"
+                >Labor &amp; Installation</span
+              >
+              <span class="font-bold text-on-surface">$6,800.00</span>
+            </div>
+            <div
+              class="flex justify-between p-4 bg-surface-container-low items-center"
+            >
+              <span class="text-sm font-medium text-on-surface-variant"
+                >Tear-off &amp; Proper Disposal</span
+              >
+              <span class="font-bold text-on-surface">$1,850.00</span>
+            </div>
+            <div class="flex justify-between p-4 bg-surface items-center">
+              <span class="text-sm font-medium text-on-surface-variant"
+                >Warranty &amp; Local Permits</span
+              >
+              <span class="font-bold text-on-surface">$500.00</span>
+            </div>
+          </div>
+          <!-- Shareable Link -->
+          <div class="p-4 bg-slate-50 rounded-xl border border-slate-200/60">
+            <label
+              class="text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-2 block"
+              >Shareable Client Link</label
+            >
+            <div class="flex gap-2">
+              <input
+                class="flex-grow text-xs border-none bg-transparent focus:ring-0 text-slate-600 font-mono"
+                readonly=""
+                type="text"
+                value="https://vizquote.io/view/77291-x8k"
+              />
+              <button
+                class="p-1.5 bg-white border border-slate-200 rounded shadow-sm hover:bg-slate-50 transition-colors"
+              >
+                <span class="material-symbols-outlined text-sm text-primary"
+                  >content_copy</span
+                >
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- Footer Actions -->
+        <div
+          class="mt-auto p-8 bg-surface-container-lowest border-t border-surface-container-high space-y-6"
+        >
+          <!-- Contractor Actions -->
+          <div class="space-y-3">
+            <p
+              class="text-[10px] font-bold uppercase tracking-[0.1em] text-outline text-center mb-4"
+            >
+              Contractor Management
+            </p>
+            <div class="grid grid-cols-2 gap-3">
+              <a
+                class="flex items-center justify-center gap-2 py-3 bg-primary text-white rounded-lg font-bold text-sm shadow-lg shadow-primary/20 hover:bg-primary/90 transition-all active:scale-95"
+                href="#"
+              >
+                <span class="material-symbols-outlined text-sm">send</span> Send
+                to Client
+              </a>
+              <button
+                class="flex items-center justify-center gap-2 py-3 border border-outline-variant rounded-lg font-bold text-sm text-on-surface-variant hover:bg-surface transition-all active:scale-95"
+              >
+                <span class="material-symbols-outlined text-sm"
+                  >picture_as_pdf</span
+                >
+                Export PDF
+              </button>
+            </div>
+            <button
+              class="w-full py-3 border border-outline-variant rounded-lg font-bold text-sm text-on-surface-variant hover:bg-surface transition-all active:scale-95"
+            >
+              Edit Quote Details
+            </button>
+          </div>
+          <!-- Client Decision (Simulation) -->
+          <div class="pt-6 border-t border-surface-container-high">
+            <p
+              class="text-[10px] font-bold uppercase tracking-[0.1em] text-outline text-center mb-4"
+            >
+              Client Decision Portal
+            </p>
+            <div class="flex flex-col gap-3">
+              <a
+                class="w-full py-4 bg-emerald-600 text-white rounded-xl font-black text-center text-base shadow-xl shadow-emerald-600/20 hover:bg-emerald-700 transition-all uppercase tracking-widest block"
+                href="#"
+              >
+                Approve &amp; Sign
+              </a>
+              <div class="grid grid-cols-2 gap-3">
+                <button
+                  class="py-3 bg-red-50 text-red-700 border border-red-100 rounded-lg font-bold text-sm hover:bg-red-100 transition-all"
+                >
+                  Reject Quote
+                </button>
+                <button
+                  class="py-3 bg-tertiary-fixed text-on-tertiary-fixed rounded-lg font-bold text-sm hover:bg-amber-100 transition-all"
+                >
+                  Request Changes
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </main>
+  </body>
+</html>
