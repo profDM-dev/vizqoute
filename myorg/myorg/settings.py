@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
 from pathlib import Path
+import os
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,7 +27,7 @@ SECRET_KEY = 'django-insecure-0l@=m4&7)@vs2-z*^ryt+kx%it65mfu#3&@g)e!k=)0tetaex!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhosts', 'DMdev.pythonanywhere.com']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -45,6 +47,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -77,19 +80,41 @@ WSGI_APPLICATION = 'myorg.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'vizqoute',
-        'USER': 'root',
-        'PASSWORD': 'root',
-        'HOST': 'localhost',
-        'PORT': '3307',
-        'OPTIONS': {
-            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
-        },
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'vizqoute',
+#         'USER': 'root',
+#         'PASSWORD': 'root',
+#         'HOST': 'localhost',
+#         'PORT': '3307',
+#         'OPTIONS': {
+#             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+#         },
+#     }
+# }
+
+
+if os.getenv("DATABASE_URL"):
+    # Production (Render)
+    DATABASES = {
+        "default": dj_database_url.config(default=os.getenv("DATABASE_URL"))
     }
-}
+else:
+    # Local (your MySQL stays untouched)
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'vizqoute',
+            'USER': 'root',
+            'PASSWORD': 'root',
+            'HOST': 'localhost',
+            'PORT': '3307',
+            'OPTIONS': {
+                'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+            },
+        }
+    }
 
 
 # Password validation
@@ -130,3 +155,5 @@ STATIC_URL = '/static/'
 # Default primary key field type
 
 STATICFILES_DIRS = [BASE_DIR / 'static']
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
