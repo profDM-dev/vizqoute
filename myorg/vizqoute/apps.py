@@ -5,3 +5,7 @@ class VizquoteQuotesConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'vizqoute'
     verbose_name = "VizQuote Quotes Module"
+
+    def ready(self):
+        # Register signals
+        from . import signals  # noqa: F401

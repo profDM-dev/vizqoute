@@ -154,6 +154,8 @@
       </div>
     </header>
     <main class="pt-24 px-4 md:px-8 max-w-6xl mx-auto">
+      <form id="quoteForm" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
       <!-- Page Header -->
       <div
         class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10"
@@ -744,12 +746,14 @@
         >
           <div>
             <button
+              type="button"
               class="hidden px-8 py-3.5 rounded-xl border-2 border-surface-container-highest text-on-surface-variant font-bold hover:bg-surface-container-high transition-all active:scale-95"
               id="btn-back"
             >
               Back
             </button>
             <button
+              type="button"
               class="px-8 py-3.5 rounded-xl text-outline font-bold hover:text-on-surface transition-colors"
               id="btn-draft" data-status="draft"
             >
@@ -757,6 +761,7 @@
             </button>
           </div>
           <button
+            type="button"
             class="px-10 py-3.5 rounded-xl bg-gradient-to-br from-primary to-primary-container text-white font-bold shadow-[0_10px_20px_rgba(16,185,129,0.3)] hover:shadow-[0_15px_30px_rgba(16,185,129,0.4)] transition-all active:scale-95 flex items-center gap-2"
             id="btn-next"
           >
@@ -769,10 +774,9 @@
           </button>
         </div>
       </div>
-      </form> <!-- ADD -->
+      </form>
     </main>
     <!-- Navigation Bar (Shared) -->
-    <form id="quoteForm" class="contents"> <!-- ADD -->
     <nav
       class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-3 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl shadow-[0_-10px_30px_rgba(0,0,0,0.03)] md:hidden"
     >

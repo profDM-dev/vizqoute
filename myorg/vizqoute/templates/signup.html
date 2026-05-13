@@ -107,7 +107,9 @@
     </style>
   </head>
   <body
-    class="bg-surface font-body text-on-surface antialiased overflow-hidden"
+    <body
+  class="bg-surface font-body text-on-surface antialiased overflow-y-auto"
+>
   >
     <main class="flex min-h-screen">
       <!-- Left Side: Brand & Visuals (Editorial Architectural Side) -->
@@ -212,7 +214,9 @@
       </section>
       <!-- Right Side: Login Form -->
       <section
-        class="w-full lg:w-1/2 bg-surface-container-lowest flex items-center justify-center p-8 md:p-16"
+        <section
+          class="w-full lg:w-1/2 bg-surface-container-lowest flex items-center justify-center p-8 md:p-16 overflow-y-auto"
+>
       >
         <div class="w-full max-w-md">
           <!-- Mobile Logo (Visible only on small screens) -->
@@ -270,18 +274,54 @@
               <div class="flex-grow border-t border-outline-variant/50"></div>
             </div>
             <!-- Input Form -->
-            <form class="space-y-5">
+            <form class="space-y-5" method="post" action="{% url 'signup' %}">
+              {% csrf_token %}
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="space-y-2">
+                  <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant px-1" for="name">Name</label>
+                  <input
+                    name="name"
+                    class="w-full bg-surface-container-low border-transparent focus:border-primary focus:ring-4 focus:ring-primary/10 rounded-xl py-3.5 px-4 transition-all"
+                    id="name"
+                    placeholder="John Contractor"
+                    type="text"
+                    required
+                  />
+                </div>
+                <div class="space-y-2">
+                  <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant px-1" for="companyname">Company</label>
+                  <input
+                    name="companyname"
+                    class="w-full bg-surface-container-low border-transparent focus:border-primary focus:ring-4 focus:ring-primary/10 rounded-xl py-3.5 px-4 transition-all"
+                    id="companyname"
+                    placeholder="Acme Roofing"
+                    type="text"
+                  />
+                </div>
+              </div>
               <div class="space-y-2">
                 <label
                   class="text-xs font-bold uppercase tracking-wider text-on-surface-variant px-1"
-                  for="email"
-                  >Email or Phone</label
+                  for="username"
+                  >Username</label
                 >
                 <input
+                  name="username"
                   class="w-full bg-surface-container-low border-transparent focus:border-primary focus:ring-4 focus:ring-primary/10 rounded-xl py-3.5 px-4 transition-all"
-                  id="email"
-                  placeholder="name@company.com"
+                  id="username"
+                  placeholder="yourusername"
                   type="text"
+                  required
+                />
+              </div>
+              <div class="space-y-2">
+                <label class="text-xs font-bold uppercase tracking-wider text-on-surface-variant px-1" for="phone">Phone</label>
+                <input
+                  name="phone"
+                  class="w-full bg-surface-container-low border-transparent focus:border-primary focus:ring-4 focus:ring-primary/10 rounded-xl py-3.5 px-4 transition-all"
+                  id="phone"
+                  placeholder="(555) 000-0000"
+                  type="tel"
                 />
               </div>
               <div class="space-y-2">
@@ -292,10 +332,12 @@
                 >
                 <div class="relative">
                   <input
+                    name="password"
                     class="w-full bg-surface-container-low border-transparent focus:border-primary focus:ring-4 focus:ring-primary/10 rounded-xl py-3.5 px-4 transition-all"
                     id="password"
                     placeholder="••••••••"
                     type="password"
+                    required
                   />
                   <button
                     class="absolute right-4 top-1/2 -translate-y-1/2 text-outline hover:text-primary transition-colors"
@@ -327,7 +369,6 @@
                 >
               </div>
               <button
-                onclick="signup(event)"
                 class="w-full py-4 bg-primary-container text-white font-bold rounded-xl shadow-lg shadow-primary/20 hover:bg-primary hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200"
                 type="submit"
               >

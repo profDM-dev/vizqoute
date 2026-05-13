@@ -37,10 +37,17 @@ urlpatterns = [
     path('', views.landing, name='landing'),
     path('dashboard/', views.dashboard, name='dashboard'),
     path('quote/', views.quote_builder, name='quote'),
-    path('admin/', views.admin_panel, name='admin'),
+    # Avoid collision with Django admin (/admin/). This is the in-app analytics panel.
+    path('analytics/', views.analytics_panel, name='analytics'),
     path('client/<str:client_id>/', views.client_portal, name='client'),
     path('contractor/', views.contractor_dashboard, name='contractor'),
     path('3Dview/', views.view_3d, name='3dview'),
+    path('me/', views.client_portal_self, name='client_portal_self'),
+
+    # Public client preview + remote approval/rejection
+    path('p/<str:token>/', views.quote_preview_public, name='quote_preview_public'),
+    path('p/<str:token>/decision/', views.quote_decision_public, name='quote_decision_public'),
+    path('quotes/<int:quote_id>/materials/', views.materials_calc, name='materials_calc'),
 
 
 
@@ -80,7 +87,6 @@ urlpatterns = [
              views.TrackPreviewView.as_view(), name='track_preview'),
         path('locations/', views.QuoteLocationsView.as_view(), name='locations'),
         path('blueprint-ocr/', views.blueprint_ocr, name='blueprint_ocr'),
-        path('client/<str:client_id>/', views.client_portal, name='client_portal'),
         path('quote/<int:quote_id>/', views.quote_detail, name='quote_detail'),
     ])),
 

@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',  # Add Django REST Framework
-    'vizqoute',  # Add the vizqoute app
+    'vizqoute.apps.VizquoteQuotesConfig',  # Add the vizqoute app
     'drf_yasg',  # Add drf-yasg for Swagger documentation
 
 ]
@@ -157,3 +157,18 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# Media uploads (house plans, attachments, etc.)
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# DRF defaults (session auth for the template-based UI)
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.SessionAuthentication",
+        "rest_framework.authentication.BasicAuthentication",
+    ],
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.IsAuthenticated",
+    ],
+}

@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 
 
@@ -11,6 +12,15 @@ class VizqouteUser(models.Model):
     role = models.CharField(max_length=20, choices=ROLE_CHOICES)
     phone = models.CharField(max_length=20)
     companyname = models.CharField(max_length=255, null=True, blank=True)
+    # Link this business profile to an actual login account (Django auth user).
+    # Nullable for backwards-compatible migrations.
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='vizqoute_profile',
+        null=True,
+        blank=True,
+    )
     createdat = models.DateTimeField(auto_now_add=True)
     updatedat = models.DateTimeField(auto_now=True)
 
@@ -21,6 +31,14 @@ class VizqouteUser(models.Model):
 class VizqouteClient(models.Model):
     name = models.CharField(max_length=255)
     phone = models.CharField(max_length=20)
+    # Multi-tenant isolation: every client belongs to exactly one contractor account.
+    contractor = models.ForeignKey(
+        VizqouteUser,
+        on_delete=models.CASCADE,
+        related_name='clients',
+        null=True,
+        blank=True,
+    )
     latitude = models.DecimalField(
         max_digits=10, decimal_places=6, null=True, blank=True)
     longitude = models.DecimalField(

@@ -200,24 +200,13 @@
         </div>
         <!-- Main Interactive Visualization Area -->
         <div class="w-full h-full flex items-center justify-center relative">
-          <!-- Background Map / Aerial Image -->
-          <img
-            alt="Site Map"
-            class="absolute inset-0 w-full h-full object-cover opacity-40 mix-blend-multiply"
-            data-alt="Aerial satellite view of a suburban residential roof"
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDComseX83qm2qQ1ku3Pz_4kkmItC_7OfCsZc3g0YF5F89rnlLsyVMmqdlOLX_HpiupgH7tV3yvqH4dZK_BTf-K29bukC721RtKrhL8Uu8I6K_z6JqdmvldNUx_H6sxJv0eAwHl7CYZFAMw8_dRHt3UEmVDgLK5qEbRvAkJ2gheapE4_T_DOxEdOoapDL3A-tElgLZcpuAx_atk5x3kgmjkDaaSAycUSsrbXFWKiMQbsKZZ6GCPxiZJs3HqW6TP8LbJOoNSCrZX_6KE"
-          />
-          <!-- 3D Roof Model Container -->
-          <div class="relative z-0 group">
+          <div class="relative z-0 group w-full h-full">
             <div
               class="absolute -inset-20 bg-primary/10 blur-3xl rounded-full transition-all duration-500 group-hover:bg-primary/20"
             ></div>
-            <img
-              alt="3D Roof Model"
-              class="relative h-[614px] object-contain drop-shadow-2xl"
-              data-alt="Technical 3D wireframe render of a gabled roof structure"
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuD857Vg-_gvujL68w9o4AiXLiyEeCRxW57kqrBbeRLAbayep4skD_EexarV-tRuSDF1HITJYH84XY4yU3sLu6L2KrQxcbFzMmJGNy7bs-6WRTqkT4jmnAasZT3-SvRk4TdvndJdXtJy0LmwLXc4DKywnY7VGkaQrkYMfgWr2rrdOpTomrc669w70dVgULPZY-bLE5QtXb8aj-XkLF189N-5hr8qC5gsf7i9z0lAE1oE8Bhmhq6orweh5MJb20tKi9boXqFx3ATTN9iZ"
-            />
+            <div id="viewer" class="relative w-full h-full">
+              <canvas id="threeCanvas" class="w-full h-full"></canvas>
+            </div>
           </div>
           <!-- Floating Glass Pill Controls -->
           <div
@@ -264,6 +253,27 @@
             <span class="material-symbols-outlined text-sm">arrow_back</span>
             Back to Dashboard
           </a>
+        </div>
+        <div class="px-8 pt-6">
+          <div
+            class="p-4 rounded-2xl bg-surface-container-low border border-outline-variant/40"
+          >
+            <p
+              class="text-[10px] font-extrabold uppercase tracking-[0.2em] text-outline mb-2"
+            >
+              Upload House Plan (visual overlay)
+            </p>
+            <input
+              id="planUpload"
+              type="file"
+              accept="image/*"
+              class="w-full rounded-xl bg-white border border-outline-variant/50 px-3 py-2 text-sm"
+            />
+            <p class="text-xs text-on-surface-variant mt-2">
+              This overlays your plan image on the ground plane in the 3D
+              viewer.
+            </p>
+          </div>
         </div>
         <!-- Sidebar Header / Quote Summary -->
         <div class="p-8 border-b border-surface-container-low">
@@ -486,5 +496,129 @@
         </div>
       </aside>
     </main>
+    <script src="https://unpkg.com/three@0.161.0/build/three.min.js"></script>
+    <script src="https://unpkg.com/three@0.161.0/examples/js/controls/OrbitControls.js"></script>
+    <script>
+      const canvas = document.getElementById("threeCanvas");
+      const renderer = new THREE.WebGLRenderer({
+        canvas,
+        antialias: true,
+        alpha: true,
+      });
+      renderer.setPixelRatio(window.devicePixelRatio || 1);
+
+      const scene = new THREE.Scene();
+      scene.background = new THREE.Color(0xf2f3fd);
+
+      const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 1000);
+      camera.position.set(6, 6, 8);
+
+      const controls = new THREE.OrbitControls(camera, renderer.domElement);
+      controls.enableDamping = true;
+      controls.target.set(0, 1, 0);
+
+      const hemi = new THREE.HemisphereLight(0xffffff, 0x334155, 1.0);
+      scene.add(hemi);
+      const dir = new THREE.DirectionalLight(0xffffff, 1.0);
+      dir.position.set(10, 12, 8);
+      scene.add(dir);
+
+      // Ground plane (can receive uploaded plan texture)
+      const groundMat = new THREE.MeshStandardMaterial({
+        color: 0xe2e8f0,
+        roughness: 1,
+      });
+      const ground = new THREE.Mesh(new THREE.PlaneGeometry(20, 20), groundMat);
+      ground.rotation.x = -Math.PI / 2;
+      ground.position.y = 0;
+      scene.add(ground);
+
+      // Simple gable roof baseline
+      const roofGroup = new THREE.Group();
+      scene.add(roofGroup);
+
+      function buildRoof({ roofArea = 2450, pitch = 6 / 12 }) {
+        while (roofGroup.children.length)
+          roofGroup.remove(roofGroup.children[0]);
+
+        const footprint = Math.sqrt(Math.max(roofArea, 100)) / 20; // heuristic scaling
+        const width = footprint;
+        const depth = footprint * 1.2;
+        const height = Math.max(0.5, depth * pitch * 0.5);
+
+        const base = new THREE.Mesh(
+          new THREE.BoxGeometry(width, 0.2, depth),
+          new THREE.MeshStandardMaterial({ color: 0x94a3b8, roughness: 0.9 }),
+        );
+        base.position.y = 0.1;
+        roofGroup.add(base);
+
+        const roofMat = new THREE.MeshStandardMaterial({
+          color: 0x1a73e8,
+          roughness: 0.6,
+          metalness: 0.05,
+        });
+        const left = new THREE.Mesh(
+          new THREE.BoxGeometry(width * 0.52, 0.15, depth),
+          roofMat,
+        );
+        left.position.y = 0.9;
+        left.rotation.z = Math.atan(pitch);
+        left.position.x = -width * 0.13;
+        roofGroup.add(left);
+
+        const right = new THREE.Mesh(
+          new THREE.BoxGeometry(width * 0.52, 0.15, depth),
+          roofMat,
+        );
+        right.position.y = 0.9;
+        right.rotation.z = -Math.atan(pitch);
+        right.position.x = width * 0.13;
+        roofGroup.add(right);
+
+        const ridge = new THREE.Mesh(
+          new THREE.BoxGeometry(width * 0.02, height, depth * 0.98),
+          new THREE.MeshStandardMaterial({ color: 0x0f172a, roughness: 0.8 }),
+        );
+        ridge.position.y = 0.2 + height / 2;
+        roofGroup.add(ridge);
+      }
+
+      buildRoof({});
+
+      function resize() {
+        const { clientWidth: w, clientHeight: h } = canvas.parentElement;
+        if (!w || !h) return;
+        renderer.setSize(w, h, false);
+        camera.aspect = w / h;
+        camera.updateProjectionMatrix();
+      }
+      window.addEventListener("resize", resize);
+      resize();
+
+      function animate() {
+        requestAnimationFrame(animate);
+        controls.update();
+        renderer.render(scene, camera);
+      }
+      animate();
+
+      // Allow user to upload a "plan" image to texture the ground plane.
+      // (This is a functional baseline for visual overlay; true plan-to-model parsing comes next.)
+      const planInput = document.getElementById("planUpload");
+      if (planInput) {
+        planInput.addEventListener("change", (e) => {
+          const file = e.target.files?.[0];
+          if (!file) return;
+          const url = URL.createObjectURL(file);
+          const tex = new THREE.TextureLoader().load(url, () => {
+            tex.wrapS = tex.wrapT = THREE.ClampToEdgeWrapping;
+            tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
+            groundMat.map = tex;
+            groundMat.needsUpdate = true;
+          });
+        });
+      }
+    </script>
   </body>
 </html>
