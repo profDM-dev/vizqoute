@@ -177,6 +177,8 @@ def quote_builder(request):
     labor_hours = request.POST.get("labor_hours")
     material_type = request.POST.get(
         "material_type") or "Architectural Shingles"
+    waste_factor = request.POST.get("wastefactor")
+    pitch_angle = request.POST.get("pitchangle")
 
     try:
         roofarea_val = float(roofarea) if roofarea else 0.0
@@ -186,14 +188,22 @@ def quote_builder(request):
         labor_val = float(labor_hours) if labor_hours else 0.0
     except ValueError:
         labor_val = 0.0
+    try:
+        waste_val = float(waste_factor) if waste_factor else 10.0
+    except ValueError:
+        waste_val = 10.0
+    try:
+        pitch_val = float(pitch_angle) if pitch_angle else 6.0
+    except ValueError:
+        pitch_val = 6.0
 
     VizqouteRoofingSpec.objects.create(
         quotationid=quote,
         roofarea=roofarea_val,
-        pitchangle=6.0,
+        pitchangle=pitch_val,
         materialtype=material_type,
         laborhours=labor_val,
-        wastefactor=10.0,
+        wastefactor=waste_val,
     )
 
     if status_value == "sent":

@@ -8,102 +8,149 @@
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   </head>
   <body class="bg-slate-50 text-slate-900">
+    {% if public and quote.status == 'approved' %}
+    <div
+      class="bg-emerald-600 text-white text-center py-3 px-4 font-semibold text-sm"
+    >
+      ✅ You have approved this quote. The contractor will be in touch shortly.
+    </div>
+    {% elif public and quote.status == 'rejected' %}
+    <div
+      class="bg-rose-600 text-white text-center py-3 px-4 font-semibold text-sm"
+    >
+      ❌ You have declined this quote. The contractor has been notified.
+    </div>
+    {% endif %}
     <main class="max-w-5xl mx-auto px-4 py-10">
-      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
+      <div
+        class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8"
+      >
         <div>
-          <h1 class="text-3xl font-extrabold tracking-tight">Quote #{{ quote.id }}</h1>
+          <h1 class="text-3xl font-extrabold tracking-tight">
+            Quote #{{ quote.id }}
+          </h1>
           <p class="text-slate-600 mt-1">
             Status:
             <span class="font-bold">{{ quote.status }}</span>
           </p>
         </div>
 
-        {% if public and preview %}
-          <div class="flex gap-2">
-            <form method="post" action="{% url 'quote_decision_public' preview.sharelink %}">
-              {% csrf_token %}
-              <input type="hidden" name="decision" value="approved" />
-              <button class="px-4 py-2 rounded-lg bg-emerald-600 text-white font-bold hover:bg-emerald-700">
-                Approve
-              </button>
-            </form>
-            <form method="post" action="{% url 'quote_decision_public' preview.sharelink %}">
-              {% csrf_token %}
-              <input type="hidden" name="decision" value="rejected" />
-              <button class="px-4 py-2 rounded-lg bg-rose-600 text-white font-bold hover:bg-rose-700">
-                Reject
-              </button>
-            </form>
-          </div>
+        {% if public and preview and quote.status == 'sent' %}
+        <div class="flex gap-2">
+          <form
+            method="post"
+            action="{% url 'quote_decision_public' preview.sharelink %}"
+          >
+            {% csrf_token %}
+            <input type="hidden" name="decision" value="approved" />
+            <button
+              class="px-4 py-2 rounded-lg bg-emerald-600 text-white font-bold hover:bg-emerald-700"
+            >
+              Approve
+            </button>
+          </form>
+          <form
+            method="post"
+            action="{% url 'quote_decision_public' preview.sharelink %}"
+          >
+            {% csrf_token %}
+            <input type="hidden" name="decision" value="rejected" />
+            <button
+              class="px-4 py-2 rounded-lg bg-rose-600 text-white font-bold hover:bg-rose-700"
+            >
+              Reject
+            </button>
+          </form>
+        </div>
         {% endif %}
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <section class="md:col-span-2 bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+        <section
+          class="md:col-span-2 bg-white rounded-2xl shadow-sm border border-slate-200 p-6"
+        >
           <h2 class="text-lg font-extrabold mb-4">Line Items</h2>
           {% if items %}
-            <div class="overflow-x-auto">
-              <table class="w-full text-sm">
-                <thead class="text-left text-slate-500">
-                  <tr>
-                    <th class="py-2 pr-4">Description</th>
-                    <th class="py-2 pr-4">Qty</th>
-                    <th class="py-2 pr-4">Unit</th>
-                    <th class="py-2 pr-4">Unit Price</th>
-                    <th class="py-2 text-right">Total</th>
-                  </tr>
-                </thead>
-                <tbody class="divide-y">
-                  {% for it in items %}
-                    <tr class="align-top">
-                      <td class="py-3 pr-4 font-semibold">{{ it.description }}</td>
-                      <td class="py-3 pr-4">{{ it.quantity }}</td>
-                      <td class="py-3 pr-4">{{ it.unit }}</td>
-                      <td class="py-3 pr-4">{{ it.unitprice }}</td>
-                      <td class="py-3 text-right font-bold">{{ it.totalprice }}</td>
-                    </tr>
-                  {% endfor %}
-                </tbody>
-              </table>
-            </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm">
+              <thead class="text-left text-slate-500">
+                <tr>
+                  <th class="py-2 pr-4">Description</th>
+                  <th class="py-2 pr-4">Qty</th>
+                  <th class="py-2 pr-4">Unit</th>
+                  <th class="py-2 pr-4">Unit Price</th>
+                  <th class="py-2 text-right">Total</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y">
+                {% for it in items %}
+                <tr class="align-top">
+                  <td class="py-3 pr-4 font-semibold">{{ it.description }}</td>
+                  <td class="py-3 pr-4">{{ it.quantity }}</td>
+                  <td class="py-3 pr-4">{{ it.unit }}</td>
+                  <td class="py-3 pr-4">{{ it.unitprice }}</td>
+                  <td class="py-3 text-right font-bold">{{ it.totalprice }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
           {% else %}
-            <p class="text-slate-600">No line items yet.</p>
+          <p class="text-slate-600">No line items yet.</p>
           {% endif %}
         </section>
 
-        <aside class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 space-y-5">
+        <aside
+          class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 space-y-5"
+        >
           <div>
             <h2 class="text-lg font-extrabold mb-2">Roof Specs</h2>
-            {% if roofing_specs %}
-              {% for s in roofing_specs %}
-                <div class="text-sm text-slate-700 space-y-1">
-                  <div><span class="text-slate-500">Area:</span> <span class="font-bold">{{ s.roofarea }}</span></div>
-                  <div><span class="text-slate-500">Pitch:</span> <span class="font-bold">{{ s.pitchangle }}</span></div>
-                  <div><span class="text-slate-500">Material:</span> <span class="font-bold">{{ s.materialtype }}</span></div>
-                  <div><span class="text-slate-500">Labor hours:</span> <span class="font-bold">{{ s.laborhours }}</span></div>
-                  <div><span class="text-slate-500">Waste factor:</span> <span class="font-bold">{{ s.wastefactor }}</span></div>
-                </div>
-                {% if not forloop.last %}
-                  <hr class="my-4" />
-                {% endif %}
-              {% endfor %}
-            {% else %}
-              <p class="text-slate-600 text-sm">No roofing specs yet.</p>
+            {% if roofing_specs %} {% for s in roofing_specs %}
+            <div class="text-sm text-slate-700 space-y-1">
+              <div>
+                <span class="text-slate-500">Area:</span>
+                <span class="font-bold">{{ s.roofarea }}</span>
+              </div>
+              <div>
+                <span class="text-slate-500">Pitch:</span>
+                <span class="font-bold">{{ s.pitchangle }}</span>
+              </div>
+              <div>
+                <span class="text-slate-500">Material:</span>
+                <span class="font-bold">{{ s.materialtype }}</span>
+              </div>
+              <div>
+                <span class="text-slate-500">Labor hours:</span>
+                <span class="font-bold">{{ s.laborhours }}</span>
+              </div>
+              <div>
+                <span class="text-slate-500">Waste factor:</span>
+                <span class="font-bold">{{ s.wastefactor }}</span>
+              </div>
+            </div>
+            {% if not forloop.last %}
+            <hr class="my-4" />
+            {% endif %} {% endfor %} {% else %}
+            <p class="text-slate-600 text-sm">No roofing specs yet.</p>
             {% endif %}
           </div>
 
           {% if preview and not public %}
-            <div class="pt-2 border-t">
-              <h3 class="font-extrabold">Share with client</h3>
-              <p class="text-sm text-slate-600 mt-1">Send this link to approve/reject remotely:</p>
-              <div class="mt-2 p-3 rounded-lg bg-slate-50 border text-sm break-all">
-                {{ request.scheme }}://{{ request.get_host }}{% url 'quote_preview_public' preview.sharelink %}
-              </div>
+          <div class="pt-2 border-t">
+            <h3 class="font-extrabold">Share with client</h3>
+            <p class="text-sm text-slate-600 mt-1">
+              Send this link to approve/reject remotely:
+            </p>
+            <div
+              class="mt-2 p-3 rounded-lg bg-slate-50 border text-sm break-all"
+            >
+              {{ request.scheme }}://{{ request.get_host }}{% url
+              'quote_preview_public' preview.sharelink %}
             </div>
+          </div>
           {% endif %}
         </aside>
       </div>
     </main>
   </body>
 </html>
-

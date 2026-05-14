@@ -629,14 +629,15 @@
       </div>
     </main>
     <!-- HIDDEN CSRF TOKEN -->
-    <input type="hidden" id="csrf-token" value="{% csrf_token %}" />
+    {% csrf_token %}
 
     <script>
       const API_BASE = "";
       let map = null;
-      let contractorId = 1;
 
-      const csrftoken = document.getElementById("csrf-token").value;
+      const csrftoken = document.querySelector(
+        "[name=csrfmiddlewaretoken]",
+      ).value;
 
       async function fetchJSON(url, options = {}) {
         const res = await fetch(url, {
@@ -678,19 +679,21 @@
             .slice(0, 5)
             .map(
               (q) => `
-    <tr class="hover:bg-slate-50 transition-colors">
+    <tr class="hover:bg-slate-50 transition-colors cursor-pointer" onclick="window.location='/quotes/quote/${q.id}/'">
       <td class="px-8 py-5 text-sm font-bold text-primary">#VQ-${q.id}</td>
       <td class="px-4 py-5">
         <div class="flex items-center gap-3">
-          <div class="w-8 h-8 bg-slate-200 rounded-full"></div>
+          <div class="w-8 h-8 bg-slate-200 rounded-full flex items-center justify-center text-xs font-bold text-slate-600">
+            ${(q.clientid?.name || "C")[0].toUpperCase()}
+          </div>
           <span class="text-sm font-semibold">${q.clientid?.name || "Client"}</span>
         </div>
       </td>
       <td class="px-4 py-5">
-        <span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-bold uppercase">${q.status}</span>
+        <span class="${getStatusBadgeClass(q.status)}">${q.status}</span>
       </td>
       <td class="px-4 py-5 text-sm text-slate-500">${new Date(q.createdat).toLocaleDateString()}</td>
-      <td class="px-8 py-5 text-sm font-bold text-right">$0</td>
+      <td class="px-8 py-5 text-sm font-bold text-right text-slate-400">—</td>
     </tr>
   `,
             )
@@ -702,11 +705,22 @@
 
       async function loadRevenue() {
         const data = await fetchJSON("/quotes/revenue/");
-        if (!data?.[0]?.total_revenue) return;
+        if (!data) return;
 
+        const revenue = parseFloat(data.total_revenue || 0);
         document.getElementById("total-revenue").textContent =
-          `$${data[0].total_revenue.toLocaleString()}`;
-        console.log("💰 Revenue loaded");
+          `$${revenue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+
+        // Compute avg quote value
+        const statsData = await fetchJSON("/quotes/dashboard/");
+        if (statsData) {
+          const totalCount = statsData.reduce((s, item) => s + item.count, 0);
+          const avg = totalCount > 0 ? revenue / totalCount : 0;
+          const avgEl = document.getElementById("avg-quote-value");
+          if (avgEl)
+            avgEl.textContent = `$${avg.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`;
+        }
+        console.log("💰 Revenue loaded:", revenue);
       }
 
       async function initMap() {
@@ -728,33 +742,153 @@
         console.log("🗺️ Map ready");
       }
 
-      async function createNewQuote() {
-        console.log("🆕 Creating quote...");
-        const data = await fetchJSON("/quotations/", {
-          method: "POST",
-          body: JSON.stringify({
-            contractorid: contractorId,
-            clientid: 1,
-            status: "draft",
-          }),
-        });
-        if (data) {
-          alert(`✅ Quote #${data.id} created!`);
-          location.reload();
-        } else {
-          alert("❌ Create failed");
+      function createNewQuote() {
+        window.location.href = "{% url 'quote' %}";
+      }
+
+      // ── Modal helpers ──────────────────────────────────────────────────────────
+      function openModal(html) {
+        document.getElementById("modal-content").innerHTML = html;
+        document.getElementById("modal-overlay").classList.remove("hidden");
+      }
+      function closeModal() {
+        document.getElementById("modal-overlay").classList.add("hidden");
+      }
+      document.addEventListener("click", (e) => {
+        if (e.target.id === "modal-overlay") closeModal();
+      });
+
+      // ── View All Quotes ────────────────────────────────────────────────────────
+      async function loadAllQuotes() {
+        openModal(
+          `<div class="p-8 text-center text-slate-500">Loading quotes…</div>`,
+        );
+
+        const [all, statuses] = await Promise.all([
+          fetchJSON("/quotes/recent/?limit=100"), // reuse recent endpoint (last 10)
+          fetchJSON("/api/quotations/"), // full list via DRF viewset
+        ]);
+
+        const quotes = all || statuses || []; // prefer statuses list (full)
+        const data = await fetchJSON("/api/quotations/");
+        if (!data) {
+          openModal(
+            `<div class="p-8 text-center text-red-500">Failed to load quotes.</div>`,
+          );
+          return;
         }
+
+        const filterBar = ["all", "draft", "sent", "approved", "rejected"]
+          .map(
+            (s) => `<button onclick="filterQuoteRows('${s}')"
+            class="filter-btn px-3 py-1 rounded-full text-xs font-bold border transition-all
+            ${s === "all" ? "bg-primary text-white border-primary" : "bg-white text-slate-600 border-slate-200 hover:border-primary hover:text-primary"}"
+            data-status="${s}">${s === "all" ? "All" : s.charAt(0).toUpperCase() + s.slice(1)}</button>`,
+          )
+          .join("");
+
+        const rows = data.length
+          ? data
+              .map(
+                (q) => `
+            <tr class="hover:bg-slate-50 transition-colors quote-row" data-status="${q.status}">
+              <td class="px-6 py-4 text-sm font-bold text-primary">#VQ-${q.id}</td>
+              <td class="px-4 py-4 text-sm">${q.clientid || "—"}</td>
+              <td class="px-4 py-4"><span class="${getStatusBadgeClass(q.status)}">${q.status}</span></td>
+              <td class="px-4 py-4 text-sm text-slate-500">${new Date(q.createdat).toLocaleDateString()}</td>
+              <td class="px-4 py-4 text-sm text-right">
+                <a href="/quotes/quote/${q.id}/" class="text-primary font-bold hover:underline">View →</a>
+              </td>
+            </tr>`,
+              )
+              .join("")
+          : `<tr><td colspan="5" class="p-8 text-center text-slate-500">No quotes found.</td></tr>`;
+
+        openModal(`
+          <div class="p-8">
+            <div class="flex items-center justify-between mb-6">
+              <h2 class="text-2xl font-extrabold text-slate-900">All Quotes</h2>
+              <button onclick="closeModal()" class="text-slate-400 hover:text-slate-700 text-2xl font-bold leading-none">&times;</button>
+            </div>
+            <div class="flex gap-2 flex-wrap mb-4">${filterBar}</div>
+            <div class="overflow-x-auto rounded-xl border border-slate-100">
+              <table class="w-full text-left">
+                <thead class="bg-slate-50 text-[10px] font-bold uppercase tracking-widest text-slate-400">
+                  <tr>
+                    <th class="px-6 py-3">Quote ID</th>
+                    <th class="px-4 py-3">Client</th>
+                    <th class="px-4 py-3">Status</th>
+                    <th class="px-4 py-3">Created</th>
+                    <th class="px-4 py-3 text-right">Action</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-50" id="all-quotes-tbody">${rows}</tbody>
+              </table>
+            </div>
+            <p class="text-xs text-slate-400 mt-4">${data.length} quote(s) total</p>
+          </div>`);
       }
 
-      function loadAllQuotes() {
-        console.log("📂 Loading all quotes...");
-        // Modal logic here (simplified for now)
-        alert("View All Quotes - Full implementation coming!");
+      function filterQuoteRows(status) {
+        document.querySelectorAll(".filter-btn").forEach((b) => {
+          const active = b.dataset.status === status;
+          b.className = `filter-btn px-3 py-1 rounded-full text-xs font-bold border transition-all ${
+            active
+              ? "bg-primary text-white border-primary"
+              : "bg-white text-slate-600 border-slate-200 hover:border-primary hover:text-primary"
+          }`;
+        });
+        document.querySelectorAll(".quote-row").forEach((row) => {
+          row.style.display =
+            status === "all" || row.dataset.status === status ? "" : "none";
+        });
       }
 
-      function loadMaterialsReport() {
-        console.log("📈 Loading materials...");
-        alert("Materials Report - Full implementation coming!");
+      // ── Materials Report ───────────────────────────────────────────────────────
+      async function loadMaterialsReport() {
+        openModal(
+          `<div class="p-8 text-center text-slate-500">Loading materials data…</div>`,
+        );
+        const data = await fetchJSON("/quotes/materials/");
+        if (!data || !data.materials) {
+          openModal(
+            `<div class="p-8 text-center text-red-500">Failed to load materials.</div>`,
+          );
+          return;
+        }
+
+        const total = data.materials.reduce((s, m) => s + m.count, 0);
+        const colors = ["#1d4ed8", "#059669", "#9333ea", "#f59e0b", "#ef4444"];
+        const rows = data.materials.length
+          ? data.materials
+              .map((m, i) => {
+                const pct = total ? Math.round((m.count / total) * 100) : 0;
+                return `
+                <div class="flex items-center gap-4 py-4 border-b border-slate-100 last:border-0">
+                  <div class="w-3 h-3 rounded-full flex-shrink-0" style="background:${colors[i % colors.length]}"></div>
+                  <div class="flex-1">
+                    <div class="flex justify-between mb-1">
+                      <span class="text-sm font-bold text-slate-800">${m.materialtype}</span>
+                      <span class="text-sm font-bold text-slate-500">${m.count} quote${m.count !== 1 ? "s" : ""} (${pct}%)</span>
+                    </div>
+                    <div class="w-full bg-slate-100 rounded-full h-2">
+                      <div class="h-2 rounded-full transition-all duration-500" style="width:${pct}%;background:${colors[i % colors.length]}"></div>
+                    </div>
+                  </div>
+                </div>`;
+              })
+              .join("")
+          : `<p class="text-slate-500 text-center py-8">No materials data yet.</p>`;
+
+        openModal(`
+          <div class="p-8">
+            <div class="flex items-center justify-between mb-6">
+              <h2 class="text-2xl font-extrabold text-slate-900">Materials Report</h2>
+              <button onclick="closeModal()" class="text-slate-400 hover:text-slate-700 text-2xl font-bold leading-none">&times;</button>
+            </div>
+            <p class="text-sm text-slate-500 mb-6">${total} total quotes · breakdown by material type</p>
+            <div>${rows}</div>
+          </div>`);
       }
 
       function getStatusBadgeClass(status) {
@@ -778,12 +912,22 @@
         initMap();
 
         // Button handlers
-        document.getElementById("btn-create-quote").onclick = createNewQuote;
+        const createBtn = document.getElementById("btn-create-quote");
+        if (createBtn)
+          createBtn.onclick = () => {
+            window.location.href = "/quote/";
+          };
         document.getElementById("btn-view-all-quotes").onclick = loadAllQuotes;
         document.getElementById("btn-materials-report").onclick =
           loadMaterialsReport;
 
-        console.log(" All ready!");
+        // "See full history" button
+        document.querySelectorAll("button").forEach((btn) => {
+          if (btn.textContent.trim() === "See full history")
+            btn.onclick = loadAllQuotes;
+        });
+
+        console.log("✅ All ready!");
       });
     </script>
   </body>

@@ -156,624 +156,681 @@
     <main class="pt-24 px-4 md:px-8 max-w-6xl mx-auto">
       <form id="quoteForm" method="post" enctype="multipart/form-data">
         {% csrf_token %}
-      <!-- Page Header -->
-      <div
-        class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10"
-      >
-        <div>
-          <h1
-            class="font-headline font-extrabold text-4xl tracking-tight text-on-surface mb-2"
-          >
-            New Roofing Quote
-          </h1>
-          <p class="text-on-surface-variant font-medium opacity-80">
-            A detailed estimate for the client
-          </p>
-        </div>
-        <button
-          class="flex items-center gap-2 px-5 py-2.5 rounded-xl text-on-surface-variant font-semibold hover:bg-surface-container-high transition-all active:scale-95"
+        <!-- Page Header -->
+        <div
+          class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10"
         >
-          <span class="material-symbols-outlined text-sm" data-icon="close"
-            >close</span
+          <div>
+            <h1
+              class="font-headline font-extrabold text-4xl tracking-tight text-on-surface mb-2"
+            >
+              New Roofing Quote
+            </h1>
+            <p class="text-on-surface-variant font-medium opacity-80">
+              A detailed estimate for the client
+            </p>
+          </div>
+          <button
+            class="flex items-center gap-2 px-5 py-2.5 rounded-xl text-on-surface-variant font-semibold hover:bg-surface-container-high transition-all active:scale-95"
           >
-          Cancel
-        </button>
-      </div>
-      <!-- Sidebar Navigation -->
-      <aside
-        <div id="sidebar"
-         class="fixed left-0 top-16 h-[calc(100%-4rem)] w-64 z-40
-         bg-gradient-to-b from-[#0f172a]/90 via-[#1e3a8a]/90 to-[#059669]/90
-         shadow-xl flex flex-col py-6 px-4 gap-2
-         transition-all duration-300 ease-in-out
-         -translate-x-[85%] hover:translate-x-0
-         backdrop-blur-md hover:from-[#0f172a] hover:via-[#1e3a8a] hover:to-[#059669]">
-      
-      >
-        <div class="px-4 mb-8">
-          <div class="flex items-center gap-3" href="#">
-            <div
-              class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center text-on-primary"
-              href="#"
+            <span class="material-symbols-outlined text-sm" data-icon="close"
+              >close</span
+            >
+            Cancel
+          </button>
+        </div>
+        <!-- Sidebar Navigation -->
+        <aside
+          id="sidebar"
+          class="fixed left-0 top-16 h-[calc(100%-4rem)] w-64 z-40 bg-gradient-to-b from-[#0f172a]/90 via-[#1e3a8a]/90 to-[#059669]/90 shadow-xl flex flex-col py-6 px-4 gap-2 transition-all duration-300 ease-in-out -translate-x-[85%] hover:translate-x-0 backdrop-blur-md hover:from-[#0f172a] hover:via-[#1e3a8a] hover:to-[#059669]"
+        >
+          <div class="px-4 mb-8">
+            <div class="flex items-center gap-3" href="#">
+              <div
+                class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center text-on-primary"
+                href="#"
+              >
+                <span
+                  class="material-symbols-outlined"
+                  style="font-variation-settings: &quot;FILL&quot; 1"
+                  >architecture</span
+                >
+              </div>
+              <div>
+                <h1
+                  class="font-bold text-blue-900 dark:text-blue-100 text-lg leading-tight"
+                >
+                  VizQuote
+                </h1>
+                <p
+                  class="text-[10px] font-semibold uppercase tracking-widest text-slate-500"
+                >
+                  Technical Elegance
+                </p>
+              </div>
+            </div>
+          </div>
+          <nav class="flex-1 flex flex-col gap-1">
+            <a
+              class="flex items-center gap-3 px-4 py-3 bg-white dark:bg-slate-800 text-blue-700 dark:text-blue-400 border-l-4 border-blue-600 rounded-r-lg shadow-sm transition-all duration-200"
+              href="{% url 'dashboard' %}"
             >
               <span
                 class="material-symbols-outlined"
                 style="font-variation-settings: &quot;FILL&quot; 1"
-                >architecture</span
+                >grid_view</span
               >
-            </div>
-            <div>
-              <h1
-                class="font-bold text-blue-900 dark:text-blue-100 text-lg leading-tight"
+              <span class="text-xs font-semibold uppercase tracking-widest"
+                >Dashboard</span
               >
-                VizQuote
-              </h1>
-              <p
-                class="text-[10px] font-semibold uppercase tracking-widest text-slate-500"
+            </a>
+            <a
+              class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-blue-600 hover:bg-slate-200/50 transition-all duration-200"
+              href="#"
+            >
+              <span class="material-symbols-outlined">insert_chart</span>
+              <span class="text-xs font-semibold uppercase tracking-widest"
+                >Analytics</span
               >
-                Technical Elegance
-              </p>
-            </div>
-          </div>
-        </div>
-        <nav class="flex-1 flex flex-col gap-1">
-          <a
-            class="flex items-center gap-3 px-4 py-3 bg-white dark:bg-slate-800 text-blue-700 dark:text-blue-400 border-l-4 border-blue-600 rounded-r-lg shadow-sm transition-all duration-200"
-            href="{% url 'dashboard' %}"
-          >
-            <span
-              class="material-symbols-outlined"
-              style="font-variation-settings: &quot;FILL&quot; 1"
-              >grid_view</span
+            </a>
+            <a
+              class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-blue-600 hover:bg-slate-200/50 transition-all duration-200"
+              href="#"
             >
-            <span class="text-xs font-semibold uppercase tracking-widest"
-              >Dashboard</span
-            >
-          </a>
-          <a
-            class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-blue-600 hover:bg-slate-200/50 transition-all duration-200"
-            href="#"
-          >
-            <span class="material-symbols-outlined">insert_chart</span>
-            <span class="text-xs font-semibold uppercase tracking-widest"
-              >Analytics</span
-            >
-          </a>
-          <a
-            class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-blue-600 hover:bg-slate-200/50 transition-all duration-200"
-            href="#"
-          >
-            <span class="material-symbols-outlined">settings</span>
-            <span class="text-xs font-semibold uppercase tracking-widest"
-              >Settings</span
-            >
-          </a>
-        </nav>
-        <div
-          class="mt-auto flex flex-col gap-1 pt-6 border-t border-surface-variant/30"
-        >
-          <a
-            class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-blue-600 transition-all duration-200"
-            href="#"
-          >
-            <span class="material-symbols-outlined">help</span>
-            <span class="text-xs font-semibold uppercase tracking-widest"
-              >Help Center</span
-            >
-          </a>
-          <a
-            class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-error transition-all duration-200"
-            href="{% url 'landing' %}"
-          >
-            <span class="material-symbols-outlined">logout</span>
-            <span class="text-xs font-semibold uppercase tracking-widest"
-              >Sign Out</span
-            >
-          </a>
+              <span class="material-symbols-outlined">settings</span>
+              <span class="text-xs font-semibold uppercase tracking-widest"
+                >Settings</span
+              >
+            </a>
+          </nav>
           <div
-            class="mt-4 flex items-center gap-3 px-2 py-3 bg-surface-container-low rounded-xl"
+            class="mt-auto flex flex-col gap-1 pt-6 border-t border-surface-variant/30"
           >
-            <img
-              class="w-10 h-10 rounded-lg object-cover"
-              data-alt="John Contractor profile portrait"
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuC9qZn8q6GIwLcFcVMHh7yd9A9OifIRZRk2TAsyG7sDzVDJOzK2DKCxGqsrLo4mmCsCUaRgkokylhFIoYIyUkFm3JwFFB2e-U6w4J_7ZmxHAev34seUw1OOz_Acn9hqoNbd4roAs8ou1B1Azt6aQsbZyzLDA00XvJF2yb06ctr9UGyx0Q9MlB2GxcpppDRMm9N5_Y5VljKo8aAuEIpU3Yxu8iE7sm9TyFkcd74Ay9WeFQwsmlwiuhJYrsBB5aAkaextIy3b8hLMQoI-"
-            />
-            <div class="overflow-hidden">
-              <p class="text-sm font-bold truncate">John Contractor</p>
-              <p class="text-[10px] text-slate-500 truncate">
-                Premium Tier Vendor
-              </p>
-            </div>
-          </div>
-        </div>
-      </aside>
-      <!-- Blueprint Upload -->
-<div class="mb-10 bg-gradient-to-br from-primary/5 to-primary-container/10 rounded-3xl p-6 border border-primary/10">
-  <div class="flex items-center gap-4 mb-4">
-    <span class="material-symbols-outlined text-primary" style="font-variation-settings:'FILL' 1">upload</span>
-    <div>
-      <h3 class="font-headline font-bold text-lg">Upload Blueprint (Optional)</h3>
-      <p class="text-sm text-on-surface-variant">Auto-detect roof specs using OCR</p>
-    </div>
-  </div>
-  <input type="file" name="blueprint" accept="image/*,.pdf"
-    class="w-full bg-surface-container-low rounded-xl px-4 py-3" />
-</div>
-      
-      <!-- Stepper -->
-      <div class="mb-12 relative">
-        <div class="flex justify-between max-w-3xl mx-auto relative z-10">
-          <!-- Step 1 Indicator -->
-          <div class="flex flex-col items-center group" id="step-indicator-1">
-            <div
-              class="w-12 h-12 rounded-full bg-primary-container text-white flex items-center justify-center font-bold shadow-lg ring-4 ring-primary-container/20 transition-all duration-300"
+            <a
+              class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-blue-600 transition-all duration-200"
+              href="#"
             >
-              1
-            </div>
-            <span class="mt-3 font-headline font-bold text-sm text-primary"
-              >Client &amp; Location</span
-            >
-          </div>
-          <!-- Line -->
-          <div
-            class="absolute top-6 left-0 right-0 h-1 bg-surface-container-highest -z-10 w-[80%] mx-auto rounded-full"
-          >
-            <div
-              class="h-full bg-primary-container transition-all duration-500 w-0 rounded-full"
-              id="progress-bar"
-            ></div>
-          </div>
-          <!-- Step 2 Indicator -->
-          <div class="flex flex-col items-center" id="step-indicator-2">
-            <div
-              class="w-12 h-12 rounded-full bg-surface-container-highest text-on-surface-variant flex items-center justify-center font-bold transition-all duration-300"
-            >
-              2
-            </div>
-            <span
-              class="mt-3 font-headline font-semibold text-sm text-on-surface-variant"
-              >Roofing Specs</span
-            >
-          </div>
-          <!-- Step 3 Indicator -->
-          <div class="flex flex-col items-center" id="step-indicator-3">
-            <div
-              class="w-12 h-12 rounded-full bg-surface-container-highest text-on-surface-variant flex items-center justify-center font-bold transition-all duration-300"
-            >
-              3
-            </div>
-            <span
-              class="mt-3 font-headline font-semibold text-sm text-on-surface-variant"
-              >Quote Items</span
-            >
-          </div>
-        </div>
-      </div>
-      <!-- Wizard Card -->
-      <div
-        class="bg-surface-container-lowest rounded-[2rem] shadow-[0_20px_40px_rgba(22,29,25,0.06)] overflow-hidden min-h-[600px] flex flex-col"
-      >
-        <!-- Step 1: Client & Location -->
-        <div
-          class="step-content active p-8 md:p-12 animate-fade-in"
-          id="step-1"
-        >
-          <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            <div class="space-y-8">
-              <div>
-                <label
-                  class="block font-headline font-bold text-on-surface mb-3"
-                  >Select Client</label
-                >
-                <div class="flex gap-3">
-                  <select
-                    class="flex-1 bg-surface-container-low border-none rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary-container/30 font-medium"
-                  >
-                    <option>Search existing client...</option>
-                    <option>Smith Residence</option>
-                    <option>Oakwood Commercial</option>
-                  </select>
-                  <button
-                    class="bg-primary-container text-white p-3 rounded-xl hover:opacity-90 transition-opacity"
-                  >
-                    <span
-                      class="material-symbols-outlined"
-                      data-icon="person_add"
-                      >person_add</span
-                    >
-                  </button>
-                </div>
-              </div>
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="space-y-2">
-                  <label class="text-sm font-bold text-on-surface-variant ml-1"
-                    >Full Name</label
-                  >
-                  <input name="clientname"
-                    class="w-full bg-surface-container-low border-none rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary-container/30"
-                    placeholder="John Doe"
-                    type="text"
-                  />
-                </div>
-                <div class="space-y-2">
-                  <label class="text-sm font-bold text-on-surface-variant ml-1"
-                    >Phone Number</label
-                  >
-                  <input name="phone"
-                    class="w-full bg-surface-container-low border-none rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary-container/30"
-                    placeholder="(555) 000-0000"
-                    type="tel"
-                  />
-                </div>
-                <div class="md:col-span-2 space-y-2">
-                  <label class="text-sm font-bold text-on-surface-variant ml-1"
-                    >Email Address</label
-                  >
-                  <input name="email"
-                    class="w-full bg-surface-container-low border-none rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary-container/30"
-                    placeholder="john@example.com"
-                    type="email"
-                  />
-                </div>
-                <div class="md:col-span-2 space-y-2">
-                  <label class="text-sm font-bold text-on-surface-variant ml-1"
-                    >Street Address</label
-                  >
-                  <input name="address"
-                    class="w-full bg-surface-container-low border-none rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary-container/30"
-                    placeholder="123 Builder Lane"
-                    type="text"
-                  />
-                </div>
-                <div class="space-y-2">
-                  <label class="text-sm font-bold text-on-surface-variant ml-1"
-                    >City</label
-                  >
-                  <input
-                    class="w-full bg-surface-container-low border-none rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary-container/30"
-                    placeholder="Denver"
-                    type="text"
-                  />
-                </div>
-                <div class="space-y-2">
-                  <label class="text-sm font-bold text-on-surface-variant ml-1"
-                    >ZIP Code</label
-                  >
-                  <input
-                    class="w-full bg-surface-container-low border-none rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary-container/30"
-                    placeholder="80202"
-                    type="text"
-                  />
-                </div>
-              </div>
-            </div>
-            <div class="flex flex-col h-full">
-              <label class="block font-headline font-bold text-on-surface mb-3"
-                >Project Location</label
+              <span class="material-symbols-outlined">help</span>
+              <span class="text-xs font-semibold uppercase tracking-widest"
+                >Help Center</span
               >
-              <div
-                class="relative flex-1 rounded-[1.5rem] overflow-hidden bg-surface-container-high min-h-[300px]"
+            </a>
+            <a
+              class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-error transition-all duration-200"
+              href="{% url 'landing' %}"
+            >
+              <span class="material-symbols-outlined">logout</span>
+              <span class="text-xs font-semibold uppercase tracking-widest"
+                >Sign Out</span
               >
-                <img
-                  alt="Map View"
-                  class="w-full h-full object-cover opacity-60 mix-blend-multiply"
-                  data-alt="Modern interactive satellite map interface showing a suburban neighborhood with individual roof outlines highlighted"
-                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuCfmgtRHZLuSkdjBiz2MKWdCBnzz3DYgcLGPPGdCV6LIJ37jA_Ru2uf-QncX9G9DyBrCsCYdmKMZyvPBR5cwTV1JD3DW4FGaxKysajlE0FuNfYny24vjb2MBw1qxgW90yAJLJgICNdUjAwQ0E1EVRw8y1ZbynCKOwwABT-p-szwTg3Fr5SqFhPhGc8pUqM8HXrZws0mtFV5qIiIYD1EnUZVhQ1qNuH7EunXNJQh3SCOkBg02hlNiVmdZXpYG4vpLNRC7lCjvhzj7-w"
-                />
-                <div class="absolute inset-0 flex items-center justify-center">
-                  <div
-                    class="bg-white/90 backdrop-blur-md px-6 py-4 rounded-2xl shadow-xl flex items-center gap-3"
-                  >
-                    <span
-                      class="material-symbols-outlined text-primary"
-                      data-icon="location_on"
-                      style="font-variation-settings: &quot;FILL&quot; 1"
-                      >location_on</span
-                    >
-                    <span class="font-bold text-on-surface"
-                      >Click to set marker</span
-                    >
-                  </div>
-                </div>
-              </div>
-              <div class="grid grid-cols-2 gap-4 mt-6">
-                <div class="bg-surface-container px-4 py-2 rounded-lg">
-                  <span
-                    class="text-[10px] uppercase tracking-widest font-bold text-outline"
-                    >Latitude</span
-                  >
-                  <div class="font-headline font-bold">39.7392° N</div>
-                </div>
-                <div class="bg-surface-container px-4 py-2 rounded-lg">
-                  <span
-                    class="text-[10px] uppercase tracking-widest font-bold text-outline"
-                    >Longitude</span
-                  >
-                  <div class="font-headline font-bold">104.9903° W</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- Step 2: Roofing Specs -->
-        <div class="step-content p-8 md:p-12" id="step-2">
-          <div class="max-w-4xl mx-auto">
-            <div class="mb-10 flex items-center gap-6">
-              <div
-                class="w-24 h-24 rounded-3xl bg-primary/10 flex items-center justify-center text-primary"
-              >
-                <span
-                  class="material-symbols-outlined text-4xl"
-                  data-icon="roofing"
-                  style="font-variation-settings: &quot;FILL&quot; 1"
-                  >roofing</span
-                >
-              </div>
-              <div>
-                <h2 class="font-headline font-bold text-2xl">
-                  Structural Details
-                </h2>
-                <p class="text-on-surface-variant">
-                  Define the physical parameters of the project
+            </a>
+            <div
+              class="mt-4 flex items-center gap-3 px-2 py-3 bg-surface-container-low rounded-xl"
+            >
+              <img
+                class="w-10 h-10 rounded-lg object-cover"
+                data-alt="John Contractor profile portrait"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuC9qZn8q6GIwLcFcVMHh7yd9A9OifIRZRk2TAsyG7sDzVDJOzK2DKCxGqsrLo4mmCsCUaRgkokylhFIoYIyUkFm3JwFFB2e-U6w4J_7ZmxHAev34seUw1OOz_Acn9hqoNbd4roAs8ou1B1Azt6aQsbZyzLDA00XvJF2yb06ctr9UGyx0Q9MlB2GxcpppDRMm9N5_Y5VljKo8aAuEIpU3Yxu8iE7sm9TyFkcd74Ay9WeFQwsmlwiuhJYrsBB5aAkaextIy3b8hLMQoI-"
+              />
+              <div class="overflow-hidden">
+                <p class="text-sm font-bold truncate">John Contractor</p>
+                <p class="text-[10px] text-slate-500 truncate">
+                  Premium Tier Vendor
                 </p>
               </div>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+          </div>
+        </aside>
+        <!-- Blueprint Upload -->
+        <div
+          class="mb-10 bg-gradient-to-br from-primary/5 to-primary-container/10 rounded-3xl p-6 border border-primary/10"
+        >
+          <div class="flex items-center gap-4 mb-4">
+            <span
+              class="material-symbols-outlined text-primary"
+              style="font-variation-settings: &quot;FILL&quot; 1"
+              >upload</span
+            >
+            <div>
+              <h3 class="font-headline font-bold text-lg">
+                Upload Blueprint (Optional)
+              </h3>
+              <p class="text-sm text-on-surface-variant">
+                Auto-detect roof specs using OCR
+              </p>
+            </div>
+          </div>
+          <input
+            type="file"
+            name="blueprint"
+            accept="image/*,.pdf"
+            class="w-full bg-surface-container-low rounded-xl px-4 py-3"
+          />
+        </div>
+
+        <!-- Stepper -->
+        <div class="mb-12 relative">
+          <div class="flex justify-between max-w-3xl mx-auto relative z-10">
+            <!-- Step 1 Indicator -->
+            <div class="flex flex-col items-center group" id="step-indicator-1">
+              <div
+                class="w-12 h-12 rounded-full bg-primary-container text-white flex items-center justify-center font-bold shadow-lg ring-4 ring-primary-container/20 transition-all duration-300"
+              >
+                1
+              </div>
+              <span class="mt-3 font-headline font-bold text-sm text-primary"
+                >Client &amp; Location</span
+              >
+            </div>
+            <!-- Line -->
+            <div
+              class="absolute top-6 left-0 right-0 h-1 bg-surface-container-highest -z-10 w-[80%] mx-auto rounded-full"
+            >
+              <div
+                class="h-full bg-primary-container transition-all duration-500 w-0 rounded-full"
+                id="progress-bar"
+              ></div>
+            </div>
+            <!-- Step 2 Indicator -->
+            <div class="flex flex-col items-center" id="step-indicator-2">
+              <div
+                class="w-12 h-12 rounded-full bg-surface-container-highest text-on-surface-variant flex items-center justify-center font-bold transition-all duration-300"
+              >
+                2
+              </div>
+              <span
+                class="mt-3 font-headline font-semibold text-sm text-on-surface-variant"
+                >Roofing Specs</span
+              >
+            </div>
+            <!-- Step 3 Indicator -->
+            <div class="flex flex-col items-center" id="step-indicator-3">
+              <div
+                class="w-12 h-12 rounded-full bg-surface-container-highest text-on-surface-variant flex items-center justify-center font-bold transition-all duration-300"
+              >
+                3
+              </div>
+              <span
+                class="mt-3 font-headline font-semibold text-sm text-on-surface-variant"
+                >Quote Items</span
+              >
+            </div>
+          </div>
+        </div>
+        <!-- Wizard Card -->
+        <div
+          class="bg-surface-container-lowest rounded-[2rem] shadow-[0_20px_40px_rgba(22,29,25,0.06)] overflow-hidden min-h-[600px] flex flex-col"
+        >
+          <!-- Step 1: Client & Location -->
+          <div
+            class="step-content active p-8 md:p-12 animate-fade-in"
+            id="step-1"
+          >
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
               <div class="space-y-8">
-                <div class="space-y-4">
-                  <label class="block font-headline font-bold text-on-surface"
-                    >Roof Area (Sq Ft)</label
+                <div>
+                  <label
+                    class="block font-headline font-bold text-on-surface mb-3"
+                    >Select Client</label
                   >
-                  <div class="relative">
-                    <input name="roofarea"
-                      class="w-full bg-surface-container-low border-none rounded-xl px-4 py-4 focus:ring-2 focus:ring-primary-container/30 text-xl font-headline font-bold"
-                      type="number"
-                      value="2450"
-                    />
-                    <span
-                      class="absolute right-4 top-1/2 -translate-y-1/2 text-outline font-bold"
-                      >sq ft</span
+                  <div class="flex gap-3">
+                    <select
+                      name="existing_client_id"
+                      class="flex-1 bg-surface-container-low border-none rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary-container/30 font-medium"
+                      onchange="prefillClientFromSelect(this)"
                     >
+                      <option value="">— Search existing client —</option>
+                      {% for client in clients %}
+                      <option
+                        value="{{ client.id }}"
+                        data-name="{{ client.name }}"
+                        data-phone="{{ client.phone }}"
+                      >
+                        {{ client.name }}
+                      </option>
+                      {% endfor %}
+                    </select>
+                    <button
+                      class="bg-primary-container text-white p-3 rounded-xl hover:opacity-90 transition-opacity"
+                    >
+                      <span
+                        class="material-symbols-outlined"
+                        data-icon="person_add"
+                        >person_add</span
+                      >
+                    </button>
                   </div>
                 </div>
-                <div class="space-y-4">
-                  <label class="block font-headline font-bold text-on-surface"
-                    >Labor Estimate (Hours)</label
-                  >
-                  <div class="relative">
-                    <input name="labor_hours"
-                      class="w-full bg-surface-container-low border-none rounded-xl px-4 py-4 focus:ring-2 focus:ring-primary-container/30 text-xl font-headline font-bold"
-                      type="number"
-                      value="48"
-                    />
-                    <span
-                      class="absolute right-4 top-1/2 -translate-y-1/2 text-outline font-bold"
-                      >hrs</span
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div class="space-y-2">
+                    <label
+                      class="text-sm font-bold text-on-surface-variant ml-1"
+                      >Full Name</label
                     >
+                    <input
+                      name="clientname"
+                      id="clientname-input"
+                      class="w-full bg-surface-container-low border-none rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary-container/30"
+                      placeholder="John Doe"
+                      type="text"
+                    />
+                  </div>
+                  <div class="space-y-2">
+                    <label
+                      class="text-sm font-bold text-on-surface-variant ml-1"
+                      >Phone Number</label
+                    >
+                    <input
+                      name="phone"
+                      class="w-full bg-surface-container-low border-none rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary-container/30"
+                      placeholder="(555) 000-0000"
+                      type="tel"
+                    />
+                  </div>
+                  <div class="md:col-span-2 space-y-2">
+                    <label
+                      class="text-sm font-bold text-on-surface-variant ml-1"
+                      >Email Address</label
+                    >
+                    <input
+                      name="email"
+                      class="w-full bg-surface-container-low border-none rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary-container/30"
+                      placeholder="john@example.com"
+                      type="email"
+                    />
+                  </div>
+                  <div class="md:col-span-2 space-y-2">
+                    <label
+                      class="text-sm font-bold text-on-surface-variant ml-1"
+                      >Street Address</label
+                    >
+                    <input
+                      name="address"
+                      class="w-full bg-surface-container-low border-none rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary-container/30"
+                      placeholder="123 Builder Lane"
+                      type="text"
+                    />
+                  </div>
+                  <div class="space-y-2">
+                    <label
+                      class="text-sm font-bold text-on-surface-variant ml-1"
+                      >City</label
+                    >
+                    <input
+                      class="w-full bg-surface-container-low border-none rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary-container/30"
+                      placeholder="Denver"
+                      type="text"
+                    />
+                  </div>
+                  <div class="space-y-2">
+                    <label
+                      class="text-sm font-bold text-on-surface-variant ml-1"
+                      >ZIP Code</label
+                    >
+                    <input
+                      class="w-full bg-surface-container-low border-none rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary-container/30"
+                      placeholder="80202"
+                      type="text"
+                    />
                   </div>
                 </div>
-                <div class="space-y-4">
-                  <div class="flex justify-between">
-                    <label class="font-headline font-bold text-on-surface"
-                      >Roof Pitch Angle</label
-                    >
-                    <span class="text-primary font-black">6:12</span>
-                  </div>
-                  <input
-                    class="w-full h-2 bg-surface-container-highest rounded-lg appearance-none cursor-pointer accent-primary-container"
-                    type="range"
+              </div>
+              <div class="flex flex-col h-full">
+                <label
+                  class="block font-headline font-bold text-on-surface mb-3"
+                  >Project Location</label
+                >
+                <div
+                  class="relative flex-1 rounded-[1.5rem] overflow-hidden bg-surface-container-high min-h-[300px]"
+                >
+                  <img
+                    alt="Map View"
+                    class="w-full h-full object-cover opacity-60 mix-blend-multiply"
+                    data-alt="Modern interactive satellite map interface showing a suburban neighborhood with individual roof outlines highlighted"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCfmgtRHZLuSkdjBiz2MKWdCBnzz3DYgcLGPPGdCV6LIJ37jA_Ru2uf-QncX9G9DyBrCsCYdmKMZyvPBR5cwTV1JD3DW4FGaxKysajlE0FuNfYny24vjb2MBw1qxgW90yAJLJgICNdUjAwQ0E1EVRw8y1ZbynCKOwwABT-p-szwTg3Fr5SqFhPhGc8pUqM8HXrZws0mtFV5qIiIYD1EnUZVhQ1qNuH7EunXNJQh3SCOkBg02hlNiVmdZXpYG4vpLNRC7lCjvhzj7-w"
                   />
                   <div
-                    class="flex justify-between text-[10px] font-bold text-outline uppercase tracking-tighter"
+                    class="absolute inset-0 flex items-center justify-center"
                   >
-                    <span>Flat</span>
-                    <span>Standard</span>
-                    <span>Steep</span>
+                    <div
+                      class="bg-white/90 backdrop-blur-md px-6 py-4 rounded-2xl shadow-xl flex items-center gap-3"
+                    >
+                      <span
+                        class="material-symbols-outlined text-primary"
+                        data-icon="location_on"
+                        style="font-variation-settings: &quot;FILL&quot; 1"
+                        >location_on</span
+                      >
+                      <span class="font-bold text-on-surface"
+                        >Click to set marker</span
+                      >
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div class="space-y-8">
-                <div class="space-y-4">
-                  <label class="block font-headline font-bold text-on-surface"
-                    >Material Type</label
-                  >
-                  <select name="material_type"
-                    class="w-full bg-surface-container-low border-none rounded-xl px-4 py-4 focus:ring-2 focus:ring-primary-container/30 font-bold"
-                  >
-                    <option>Architectural Shingles</option>
-                    <option>Metal Standing Seam</option>
-                    <option>Clay Tile</option>
-                    <option>Slate Premium</option>
-                  </select>
-                </div>
-                <div class="space-y-4">
-                  <label class="block font-headline font-bold text-on-surface"
-                    >Waste Factor (%)</label
-                  >
-                  <div class="grid grid-cols-4 gap-3">
-                    <button
-                      class="py-3 rounded-xl bg-surface-container-highest font-bold text-on-surface hover:bg-primary-container hover:text-white transition-all"
+                <div class="grid grid-cols-2 gap-4 mt-6">
+                  <div class="bg-surface-container px-4 py-2 rounded-lg">
+                    <span
+                      class="text-[10px] uppercase tracking-widest font-bold text-outline"
+                      >Latitude</span
                     >
-                      5%
-                    </button>
-                    <button
-                      class="py-3 rounded-xl bg-primary-container font-bold text-white shadow-lg"
-                    >
-                      10%
-                    </button>
-                    <button
-                      class="py-3 rounded-xl bg-surface-container-highest font-bold text-on-surface hover:bg-primary-container hover:text-white transition-all"
-                    >
-                      15%
-                    </button>
-                    <button
-                      class="py-3 rounded-xl bg-surface-container-highest font-bold text-on-surface hover:bg-primary-container hover:text-white transition-all"
-                    >
-                      20%
-                    </button>
+                    <div class="font-headline font-bold">39.7392° N</div>
                   </div>
-                </div>
-                <div class="space-y-4">
-                  <label class="block font-headline font-bold text-on-surface"
-                    >Additional Notes</label
-                  >
-                  <textarea
-                    class="w-full bg-surface-container-low border-none rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary-container/30"
-                    placeholder="Chimney flashing needs special attention..."
-                    rows="3"
-                  ></textarea>
+                  <div class="bg-surface-container px-4 py-2 rounded-lg">
+                    <span
+                      class="text-[10px] uppercase tracking-widest font-bold text-outline"
+                      >Longitude</span
+                    >
+                    <div class="font-headline font-bold">104.9903° W</div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        <!-- Step 3: Quote Items -->
-        <div class="step-content p-8 md:p-12" id="step-3">
-          <div class="flex items-center justify-between mb-8">
-            <h2 class="font-headline font-extrabold text-2xl">
-              Estimate Summary
-            </h2>
-            <button
-              class="text-primary font-bold flex items-center gap-1 hover:underline"
-            >
-              <span class="material-symbols-outlined text-sm" data-icon="add"
-                >add</span
-              >
-              Add Line Item
-            </button>
-          </div>
-          <div class="overflow-x-auto">
-            <table class="w-full border-separate border-spacing-y-4">
-              <thead>
-                <tr
-                  class="text-left text-[10px] uppercase tracking-widest font-black text-outline"
+          <!-- Step 2: Roofing Specs -->
+          <div class="step-content p-8 md:p-12" id="step-2">
+            <div class="max-w-4xl mx-auto">
+              <div class="mb-10 flex items-center gap-6">
+                <div
+                  class="w-24 h-24 rounded-3xl bg-primary/10 flex items-center justify-center text-primary"
                 >
-                  <th class="px-6 pb-2">Description</th>
-                  <th class="px-6 pb-2">Quantity</th>
-                  <th class="px-6 pb-2">Unit</th>
-                  <th class="px-6 pb-2">Price</th>
-                  <th class="px-6 pb-2 text-right">Total</th>
-                </tr>
-              </thead>
-              <tbody class="text-sm font-medium">
-                <tr class="bg-surface-container-low rounded-2xl">
-                  <td class="px-6 py-5 rounded-l-2xl font-bold">
-                    Premium Asphalt Shingles - Slate Gray
-                  </td>
-                  <td class="px-6 py-5">24.5</td>
-                  <td class="px-6 py-5">Squares</td>
-                  <td class="px-6 py-5">$185.00</td>
-                  <td class="px-6 py-5 text-right rounded-r-2xl font-bold">
-                    $4,532.50
-                  </td>
-                </tr>
-                <tr class="bg-surface-container-low rounded-2xl">
-                  <td class="px-6 py-5 rounded-l-2xl font-bold">
-                    Professional Installation Labor
-                  </td>
-                  <td class="px-6 py-5">48</td>
-                  <td class="px-6 py-5">Hours</td>
-                  <td class="px-6 py-5">$65.00</td>
-                  <td class="px-6 py-5 text-right rounded-r-2xl font-bold">
-                    $3,120.00
-                  </td>
-                </tr>
-                <tr class="bg-surface-container-low rounded-2xl">
-                  <td class="px-6 py-5 rounded-l-2xl font-bold">
-                    Underlayment &amp; Drip Edge Kit
-                  </td>
-                  <td class="px-6 py-5">1</td>
-                  <td class="px-6 py-5">Lot</td>
-                  <td class="px-6 py-5">$850.00</td>
-                  <td class="px-6 py-5 text-right rounded-r-2xl font-bold">
-                    $850.00
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <div class="mt-12 flex flex-col md:flex-row gap-8 justify-between">
-            <div class="max-w-sm">
-              <div
-                class="bg-primary/5 p-6 rounded-3xl border border-primary/10"
-              >
-                <div class="flex items-start gap-4">
                   <span
-                    class="material-symbols-outlined text-primary mt-1"
-                    data-icon="verified"
+                    class="material-symbols-outlined text-4xl"
+                    data-icon="roofing"
                     style="font-variation-settings: &quot;FILL&quot; 1"
-                    >verified</span
+                    >roofing</span
                   >
-                  <div>
-                    <p class="font-bold text-primary text-sm">
-                      Professional Guarantee
-                    </p>
-                    <p
-                      class="text-xs text-on-surface-variant leading-relaxed mt-1"
+                </div>
+                <div>
+                  <h2 class="font-headline font-bold text-2xl">
+                    Structural Details
+                  </h2>
+                  <p class="text-on-surface-variant">
+                    Define the physical parameters of the project
+                  </p>
+                </div>
+              </div>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                <div class="space-y-8">
+                  <div class="space-y-4">
+                    <label class="block font-headline font-bold text-on-surface"
+                      >Roof Area (Sq Ft)</label
                     >
-                      This quote includes our standard 10-year workmanship
-                      warranty and all necessary city permits.
-                    </p>
+                    <div class="relative">
+                      <input
+                        name="roofarea"
+                        class="w-full bg-surface-container-low border-none rounded-xl px-4 py-4 focus:ring-2 focus:ring-primary-container/30 text-xl font-headline font-bold"
+                        type="number"
+                        value="2450"
+                      />
+                      <span
+                        class="absolute right-4 top-1/2 -translate-y-1/2 text-outline font-bold"
+                        >sq ft</span
+                      >
+                    </div>
+                  </div>
+                  <div class="space-y-4">
+                    <label class="block font-headline font-bold text-on-surface"
+                      >Labor Estimate (Hours)</label
+                    >
+                    <div class="relative">
+                      <input
+                        name="labor_hours"
+                        class="w-full bg-surface-container-low border-none rounded-xl px-4 py-4 focus:ring-2 focus:ring-primary-container/30 text-xl font-headline font-bold"
+                        type="number"
+                        value="48"
+                      />
+                      <span
+                        class="absolute right-4 top-1/2 -translate-y-1/2 text-outline font-bold"
+                        >hrs</span
+                      >
+                    </div>
+                  </div>
+                  <div class="space-y-4">
+                    <div class="flex justify-between">
+                      <label class="font-headline font-bold text-on-surface"
+                        >Roof Pitch Angle</label
+                      >
+                      <span class="text-primary font-black" id="pitch-display"
+                        >6:12</span
+                      >
+                    </div>
+                    <input
+                      id="pitch-slider"
+                      name="pitch_angle"
+                      class="w-full h-2 bg-surface-container-highest rounded-lg appearance-none cursor-pointer accent-primary-container"
+                      type="range"
+                      min="1"
+                      max="12"
+                      step="1"
+                      value="6"
+                    />
+                    <div
+                      class="flex justify-between text-[10px] font-bold text-outline uppercase tracking-tighter"
+                    >
+                      <span>Flat</span>
+                      <span>Standard</span>
+                      <span>Steep</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="space-y-8">
+                  <div class="space-y-4">
+                    <label class="block font-headline font-bold text-on-surface"
+                      >Material Type</label
+                    >
+                    <select
+                      name="material_type"
+                      class="w-full bg-surface-container-low border-none rounded-xl px-4 py-4 focus:ring-2 focus:ring-primary-container/30 font-bold"
+                    >
+                      <option>Architectural Shingles</option>
+                      <option>Metal Standing Seam</option>
+                      <option>Clay Tile</option>
+                      <option>Slate Premium</option>
+                    </select>
+                  </div>
+                  <div class="space-y-4">
+                    <label class="block font-headline font-bold text-on-surface"
+                      >Waste Factor (%)</label
+                    >
+                    <input
+                      type="hidden"
+                      name="waste_factor"
+                      id="wastefactor-input"
+                      value="10"
+                    />
+                    <div class="grid grid-cols-4 gap-3">
+                      <button
+                        type="button"
+                        data-value="5"
+                        class="waste-btn py-3 rounded-xl bg-surface-container-highest font-bold text-on-surface hover:bg-primary-container hover:text-white transition-all"
+                      >
+                        5%
+                      </button>
+                      <button
+                        type="button"
+                        data-value="10"
+                        class="waste-btn py-3 rounded-xl bg-primary-container font-bold text-white shadow-lg"
+                      >
+                        10%
+                      </button>
+                      <button
+                        type="button"
+                        data-value="15"
+                        class="waste-btn py-3 rounded-xl bg-surface-container-highest font-bold text-on-surface hover:bg-primary-container hover:text-white transition-all"
+                      >
+                        15%
+                      </button>
+                      <button
+                        type="button"
+                        data-value="20"
+                        class="waste-btn py-3 rounded-xl bg-surface-container-highest font-bold text-on-surface hover:bg-primary-container hover:text-white transition-all"
+                      >
+                        20%
+                      </button>
+                    </div>
+                  </div>
+                  <div class="space-y-4">
+                    <label class="block font-headline font-bold text-on-surface"
+                      >Additional Notes</label
+                    >
+                    <textarea
+                      class="w-full bg-surface-container-low border-none rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary-container/30"
+                      placeholder="Chimney flashing needs special attention..."
+                      rows="3"
+                    ></textarea>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="w-full md:w-80 space-y-4">
-              <div class="flex justify-between items-center px-2">
-                <span class="text-outline font-bold">Subtotal</span>
-                <span class="font-headline font-bold text-lg">$8,502.50</span>
-              </div>
-              <div class="flex justify-between items-center px-2">
-                <span class="text-outline font-bold">Tax (8%)</span>
-                <span class="font-headline font-bold text-lg">$680.20</span>
-              </div>
-              <div
-                class="bg-primary-container/10 p-6 rounded-3xl flex justify-between items-center"
+          </div>
+          <!-- Step 3: Quote Items -->
+          <div class="step-content p-8 md:p-12" id="step-3">
+            <div class="flex items-center justify-between mb-8">
+              <h2 class="font-headline font-extrabold text-2xl">
+                Estimate Summary
+              </h2>
+              <button
+                class="text-primary font-bold flex items-center gap-1 hover:underline"
               >
-                <span class="font-headline font-extrabold text-primary"
-                  >Quote Total</span
+                <span class="material-symbols-outlined text-sm" data-icon="add"
+                  >add</span
                 >
-                <span class="font-headline font-black text-3xl text-primary"
-                  >$9,182.70</span
+                Add Line Item
+              </button>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full border-separate border-spacing-y-4">
+                <thead>
+                  <tr
+                    class="text-left text-[10px] uppercase tracking-widest font-black text-outline"
+                  >
+                    <th class="px-6 pb-2">Description</th>
+                    <th class="px-6 pb-2">Quantity</th>
+                    <th class="px-6 pb-2">Unit</th>
+                    <th class="px-6 pb-2">Price</th>
+                    <th class="px-6 pb-2 text-right">Total</th>
+                  </tr>
+                </thead>
+                <tbody class="text-sm font-medium">
+                  <tr class="bg-surface-container-low rounded-2xl">
+                    <td class="px-6 py-5 rounded-l-2xl font-bold">
+                      Premium Asphalt Shingles - Slate Gray
+                    </td>
+                    <td class="px-6 py-5">24.5</td>
+                    <td class="px-6 py-5">Squares</td>
+                    <td class="px-6 py-5">$185.00</td>
+                    <td class="px-6 py-5 text-right rounded-r-2xl font-bold">
+                      $4,532.50
+                    </td>
+                  </tr>
+                  <tr class="bg-surface-container-low rounded-2xl">
+                    <td class="px-6 py-5 rounded-l-2xl font-bold">
+                      Professional Installation Labor
+                    </td>
+                    <td class="px-6 py-5">48</td>
+                    <td class="px-6 py-5">Hours</td>
+                    <td class="px-6 py-5">$65.00</td>
+                    <td class="px-6 py-5 text-right rounded-r-2xl font-bold">
+                      $3,120.00
+                    </td>
+                  </tr>
+                  <tr class="bg-surface-container-low rounded-2xl">
+                    <td class="px-6 py-5 rounded-l-2xl font-bold">
+                      Underlayment &amp; Drip Edge Kit
+                    </td>
+                    <td class="px-6 py-5">1</td>
+                    <td class="px-6 py-5">Lot</td>
+                    <td class="px-6 py-5">$850.00</td>
+                    <td class="px-6 py-5 text-right rounded-r-2xl font-bold">
+                      $850.00
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="mt-12 flex flex-col md:flex-row gap-8 justify-between">
+              <div class="max-w-sm">
+                <div
+                  class="bg-primary/5 p-6 rounded-3xl border border-primary/10"
                 >
+                  <div class="flex items-start gap-4">
+                    <span
+                      class="material-symbols-outlined text-primary mt-1"
+                      data-icon="verified"
+                      style="font-variation-settings: &quot;FILL&quot; 1"
+                      >verified</span
+                    >
+                    <div>
+                      <p class="font-bold text-primary text-sm">
+                        Professional Guarantee
+                      </p>
+                      <p
+                        class="text-xs text-on-surface-variant leading-relaxed mt-1"
+                      >
+                        This quote includes our standard 10-year workmanship
+                        warranty and all necessary city permits.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="w-full md:w-80 space-y-4">
+                <div class="flex justify-between items-center px-2">
+                  <span class="text-outline font-bold">Subtotal</span>
+                  <span class="font-headline font-bold text-lg">$8,502.50</span>
+                </div>
+                <div class="flex justify-between items-center px-2">
+                  <span class="text-outline font-bold">Tax (8%)</span>
+                  <span class="font-headline font-bold text-lg">$680.20</span>
+                </div>
+                <div
+                  class="bg-primary-container/10 p-6 rounded-3xl flex justify-between items-center"
+                >
+                  <span class="font-headline font-extrabold text-primary"
+                    >Quote Total</span
+                  >
+                  <span class="font-headline font-black text-3xl text-primary"
+                    >$9,182.70</span
+                  >
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <!-- Wizard Footer Actions -->
-        <div
-          class="mt-auto border-t border-surface-container-highest p-8 md:px-12 flex justify-between items-center"
-        >
-          <div>
+          <!-- Wizard Footer Actions -->
+          <div
+            class="mt-auto border-t border-surface-container-highest p-8 md:px-12 flex justify-between items-center"
+          >
+            <div>
+              <button
+                type="button"
+                class="hidden px-8 py-3.5 rounded-xl border-2 border-surface-container-highest text-on-surface-variant font-bold hover:bg-surface-container-high transition-all active:scale-95"
+                id="btn-back"
+              >
+                Back
+              </button>
+              <button
+                type="button"
+                class="px-8 py-3.5 rounded-xl text-outline font-bold hover:text-on-surface transition-colors"
+                id="btn-draft"
+                data-status="draft"
+              >
+                Save as Draft
+              </button>
+            </div>
             <button
               type="button"
-              class="hidden px-8 py-3.5 rounded-xl border-2 border-surface-container-highest text-on-surface-variant font-bold hover:bg-surface-container-high transition-all active:scale-95"
-              id="btn-back"
+              class="px-10 py-3.5 rounded-xl bg-gradient-to-br from-primary to-primary-container text-white font-bold shadow-[0_10px_20px_rgba(16,185,129,0.3)] hover:shadow-[0_15px_30px_rgba(16,185,129,0.4)] transition-all active:scale-95 flex items-center gap-2"
+              id="btn-next"
             >
-              Back
-            </button>
-            <button
-              type="button"
-              class="px-8 py-3.5 rounded-xl text-outline font-bold hover:text-on-surface transition-colors"
-              id="btn-draft" data-status="draft"
-            >
-              Save as Draft
+              <span id="next-text">Continue to Roofing Specs</span>
+              <span
+                class="material-symbols-outlined text-sm"
+                data-icon="arrow_forward"
+                >arrow_forward</span
+              >
             </button>
           </div>
-          <button
-            type="button"
-            class="px-10 py-3.5 rounded-xl bg-gradient-to-br from-primary to-primary-container text-white font-bold shadow-[0_10px_20px_rgba(16,185,129,0.3)] hover:shadow-[0_15px_30px_rgba(16,185,129,0.4)] transition-all active:scale-95 flex items-center gap-2"
-            id="btn-next"
-          >
-            <span id="next-text">Continue to Roofing Specs</span>
-            <span
-              class="material-symbols-outlined text-sm"
-              data-icon="arrow_forward"
-              >arrow_forward</span
-            >
-          </button>
         </div>
-      </div>
       </form>
     </main>
     <!-- Navigation Bar (Shared) -->
@@ -824,6 +881,39 @@
     <script>
       let currentStep = 1;
       const totalSteps = 3;
+
+      // ── Waste Factor buttons ───────────────────────────────────────────────────
+      document.querySelectorAll(".waste-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          document.querySelectorAll(".waste-btn").forEach((b) => {
+            b.className =
+              "waste-btn py-3 rounded-xl bg-surface-container-highest font-bold text-on-surface hover:bg-primary-container hover:text-white transition-all";
+          });
+          btn.className =
+            "waste-btn py-3 rounded-xl bg-primary-container font-bold text-white shadow-lg";
+          document.getElementById("wastefactor-input").value =
+            btn.dataset.value;
+        });
+      });
+
+      // ── Pitch Slider live display ──────────────────────────────────────────────
+      const pitchSlider = document.getElementById("pitch-slider");
+      const pitchDisplay = document.getElementById("pitch-display");
+      if (pitchSlider) {
+        pitchSlider.addEventListener("input", () => {
+          pitchDisplay.textContent = pitchSlider.value + ":12";
+        });
+      }
+
+      // ── Client prefill from existing client select ─────────────────────────────
+      function prefillClientFromSelect(sel) {
+        const opt = sel.options[sel.selectedIndex];
+        if (!opt.value) return;
+        const nameInput = document.getElementById("clientname-input");
+        const phoneInput = document.querySelector('input[name="phone"]');
+        if (nameInput) nameInput.value = opt.dataset.name || "";
+        if (phoneInput) phoneInput.value = opt.dataset.phone || "";
+      }
 
       const nextBtn = document.getElementById("btn-next");
       const backBtn = document.getElementById("btn-back");
@@ -896,8 +986,7 @@
           updateUI();
         } else {
           submitQuote("sent"); // FINAL SUBMIT
-       }
-  
+        }
       });
 
       backBtn.addEventListener("click", () => {
@@ -915,21 +1004,34 @@
       function submitQuote(status) {
         const form = document.getElementById("quoteForm");
         const formData = new FormData(form);
-        formData.append("status", status);
+        formData.set("status", status);
 
-      fetch("/quote/", {
-        method: "POST",
-        body: formData,
-        headers: {
-          "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]')?.value
-        }
-      })
-      .then(res => res.json())
-      .then(() => {
-       window.location.href = "/dashboard/";
-      })
-      .catch(() => alert("Error saving quote"));
-   }
+        fetch("/quote/", {
+          method: "POST",
+          body: formData,
+          redirect: "follow",
+          headers: {
+            "X-CSRFToken": document.querySelector("[name=csrfmiddlewaretoken]")
+              ?.value,
+          },
+        })
+          .then((res) => {
+            if (res.ok || res.redirected) {
+              // Server redirects to quote_detail on success
+              window.location.href = res.url || "/dashboard/";
+            } else {
+              return res.text().then((t) => {
+                throw new Error(t);
+              });
+            }
+          })
+          .catch((err) => {
+            console.error(err);
+            alert(
+              "Error saving quote. Check that all required fields are filled.",
+            );
+          });
+      }
     </script>
   </body>
 </html>
