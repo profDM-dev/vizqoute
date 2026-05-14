@@ -234,7 +234,7 @@
         </a>
         <a
           class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-error transition-all duration-200"
-          href="{% url 'landing' %}"
+          href="{% url 'logout' %}"
         >
           <span class="material-symbols-outlined">logout</span>
           <span class="text-xs font-semibold uppercase tracking-widest"
@@ -244,15 +244,17 @@
         <div
           class="mt-4 flex items-center gap-3 px-2 py-3 bg-surface-container-low rounded-xl"
         >
-          <img
-            class="w-10 h-10 rounded-lg object-cover"
-            data-alt="John Contractor profile portrait"
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuC9qZn8q6GIwLcFcVMHh7yd9A9OifIRZRk2TAsyG7sDzVDJOzK2DKCxGqsrLo4mmCsCUaRgkokylhFIoYIyUkFm3JwFFB2e-U6w4J_7ZmxHAev34seUw1OOz_Acn9hqoNbd4roAs8ou1B1Azt6aQsbZyzLDA00XvJF2yb06ctr9UGyx0Q9MlB2GxcpppDRMm9N5_Y5VljKo8aAuEIpU3Yxu8iE7sm9TyFkcd74Ay9WeFQwsmlwiuhJYrsBB5aAkaextIy3b8hLMQoI-"
-          />
+          <div
+            class="w-10 h-10 rounded-lg bg-gradient-to-br from-[#1E3A8A] to-[#00a395] flex items-center justify-center text-white font-black text-sm flex-shrink-0"
+          >
+            {{ profile.name|first|upper|default:"C" }}
+          </div>
           <div class="overflow-hidden">
-            <p class="text-sm font-bold truncate">John Contractor</p>
+            <p class="text-sm font-bold truncate">
+              {{ profile.name|default:"Contractor" }}
+            </p>
             <p class="text-[10px] text-slate-500 truncate">
-              Premium Tier Vendor
+              {{ profile.companyname|default:"Contractor" }}
             </p>
           </div>
         </div>
@@ -264,10 +266,15 @@
       <header class="flex justify-between items-end mb-12">
         <div>
           <h1 class="text-4xl font-extrabold tracking-tight text-blue-900 mb-1">
-            Contractor
+            Contractor Dashboard
           </h1>
           <p class="text-slate-500 font-medium">
-            Welcome back, John. Here is your roofing enterprise overview.
+            Welcome back,
+            <span class="font-bold text-blue-900"
+              >{{ profile.name|default:"Contractor" }}</span
+            >. {% if profile.companyname %}
+            <span class="text-slate-400">{{ profile.companyname }} ·</span>
+            {% endif %} Here is your roofing enterprise overview.
           </p>
         </div>
         <div class="flex items-center gap-4">

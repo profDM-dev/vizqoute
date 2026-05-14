@@ -125,7 +125,7 @@ def contractor_dashboard(request):
         return HttpResponseForbidden("Only contractors can access this page.")
     clients = VizqouteClient.objects.filter(
         contractor=profile).order_by("-createdat")[:10]
-    return render(request, "contractordash.html", {"clients": clients})
+    return render(request, "contractordash.html", {"clients": clients, "profile": profile})
 
 
 @login_required
@@ -135,7 +135,7 @@ def analytics_panel(request):
         return HttpResponseForbidden("Only contractors can access this page.")
     clients = VizqouteClient.objects.filter(
         contractor=profile).order_by("-createdat")[:10]
-    return render(request, "admin.html", {"clients": clients})
+    return render(request, "admin.html", {"clients": clients, "profile": profile})
 
 
 @login_required
@@ -177,8 +177,6 @@ def quote_builder(request):
     labor_hours = request.POST.get("labor_hours")
     material_type = request.POST.get(
         "material_type") or "Architectural Shingles"
-    waste_factor = request.POST.get("wastefactor")
-    pitch_angle = request.POST.get("pitchangle")
 
     try:
         roofarea_val = float(roofarea) if roofarea else 0.0
@@ -188,22 +186,14 @@ def quote_builder(request):
         labor_val = float(labor_hours) if labor_hours else 0.0
     except ValueError:
         labor_val = 0.0
-    try:
-        waste_val = float(waste_factor) if waste_factor else 10.0
-    except ValueError:
-        waste_val = 10.0
-    try:
-        pitch_val = float(pitch_angle) if pitch_angle else 6.0
-    except ValueError:
-        pitch_val = 6.0
 
     VizqouteRoofingSpec.objects.create(
         quotationid=quote,
         roofarea=roofarea_val,
-        pitchangle=pitch_val,
+        pitchangle=6.0,
         materialtype=material_type,
         laborhours=labor_val,
-        wastefactor=waste_val,
+        wastefactor=10.0,
     )
 
     if status_value == "sent":
@@ -270,7 +260,7 @@ def quote_detail(request, quote_id: int):
     roofing_specs = VizqouteRoofingSpec.objects.filter(quotationid=quote)
     preview = VizqoutePreview.objects.filter(
         quotationid=quote).order_by("-createdat").first()
-    return render(request, "quote_detail.html", {"quote": quote, "items": items, "roofing_specs": roofing_specs, "preview": preview})
+    return render(request, "quote_detail.html", {"quote": quote, "items": items, "roofing_specs": roofing_specs, "preview": preview, "profile": profile})
 
 
 def quote_preview_public(request, token: str):
@@ -283,7 +273,8 @@ def quote_preview_public(request, token: str):
     quote = preview.quotationid
     items = VizqouteQuoteItem.objects.filter(quotationid=quote)
     specs = VizqouteRoofingSpec.objects.filter(quotationid=quote)
-    return render(request, "quote_detail.html", {"quote": quote, "items": items, "roofing_specs": specs, "preview": preview, "public": True})
+    contractor = quote.contractorid
+    return render(request, "quote_detail.html", {"quote": quote, "items": items, "roofing_specs": specs, "preview": preview, "public": True, "contractor": contractor})
 
 
 @require_http_methods(["POST"])
@@ -299,7 +290,7 @@ def quote_decision_public(request, token: str):
     quote = preview.quotationid
     quote.status = decision
     quote.save(update_fields=["status"])
-    return JsonResponse({"success": True, "status": quote.status})
+    return redirect("quote_preview_public", token=token)
 
 
 @login_required
